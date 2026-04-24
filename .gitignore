@@ -1,0 +1,38 @@
+# Roblox place files (built artifacts — rebuild from source with Rojo)
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
+
+# Roblox Studio lock files
+*.rbxl.lock
+*.rbxlx.lock
+
+# Rojo-generated sourcemap (regenerated on demand)
+sourcemap.json
+
+# Wally package manager
+/Packages/
+/ServerPackages/
+/DevPackages/
+wally-lock.toml.bak
+
+# Toolchain managers (binaries installed locally, not source)
+/.aftman/
+/.rokit/
+/.foreman/
+
+# Luau LSP / editor caches
+.luaurc.bak
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build/temp
+/build/
+/dist/
+*.log
