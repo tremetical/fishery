@@ -1,14 +1,22 @@
 import { defineConfig } from 'vitest/config';
 import preact from '@preact/preset-vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { viteSingleFile } from 'vite-plugin-singlefile';
 
 // BASE is set by CI for GitHub Pages project-site deploys (e.g. "/fishery/").
-const base = process.env.BASE ?? '/';
+// ARTIFACT=1 produces a self-contained single-file build (everything inlined,
+// no service worker) for hosted previews.
+const artifact = process.env.ARTIFACT === '1';
+const base = artifact ? './' : (process.env.BASE ?? '/');
 
 export default defineConfig({
   base,
+  build: artifact
+    ? { outDir: 'dist-artifact', assetsInlineLimit: 100_000_000 }
+    : undefined,
   plugins: [
     preact(),
+    ...(artifact ? [viteSingleFile()] : []),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['fonts/*.woff2', 'icons/*.png', 'icons/*.svg'],
