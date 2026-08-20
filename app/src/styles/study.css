@@ -1,0 +1,164 @@
+/* ---------- Flashcard ---------- */
+
+.flashcard {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 22px 18px;
+  min-height: 42vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow);
+}
+
+.flashcard-front {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.flashcard-cover {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  border-top: 1px dashed var(--line-strong);
+  color: var(--text-faint);
+  min-height: 120px;
+}
+.flashcard-cover-hint {
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.flashcard-answer {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-strong);
+  animation: reveal 140ms ease-out;
+}
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.flashcard-back {
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--accent);
+  font-weight: 700;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.flashcard-why {
+  margin-top: 12px;
+  font-size: 14.5px;
+  color: var(--text-dim);
+}
+
+.flashcard-cite {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--info);
+}
+
+/* ---------- Session ---------- */
+
+.session {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.session-progress {
+  height: 4px;
+  background: var(--surface-2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.session-progress > div {
+  height: 100%;
+  background: var(--accent);
+  transition: width 200ms ease;
+}
+
+.session-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.session-card-area {
+  flex: 1;
+}
+
+.session-actions {
+  position: sticky;
+  bottom: 0;
+  padding: 12px 0 calc(10px + env(safe-area-inset-bottom));
+  background: linear-gradient(transparent, var(--bg) 30%);
+}
+
+.gradebar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.gradebtn {
+  min-height: 62px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-weight: 700;
+  font-size: 14.5px;
+}
+.gradebtn small {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.75;
+}
+.gradebtn:active { transform: translateY(1px); }
+.grade-0 { color: var(--warning); border-color: var(--warning); background: var(--warning-soft); }
+.grade-1 { color: var(--caution); border-color: var(--caution); background: var(--caution-soft); }
+.grade-2 { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.grade-3 { color: var(--info); border-color: var(--info); background: var(--info-soft); }
+
+.reveal-btn {
+  width: 100%;
+  min-height: 62px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Session summary ---------- */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  text-align: center;
+}

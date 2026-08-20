@@ -4,6 +4,7 @@ import { initStore } from './lib/store';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/components.css';
+import './styles/study.css';
 
 initStore().then(() => {
   render(<App />, document.getElementById('app')!);
