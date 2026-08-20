@@ -1,0 +1,135 @@
+/*
+ * Design tokens. Every color in the app comes through these variables —
+ * including SVG diagrams — so the night theme can clamp the entire UI to
+ * red-on-black without per-component work. Never hardcode a color in a
+ * component; add a token here.
+ */
+
+:root {
+  --font-ui: 'B612', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'B612 Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --radius: 12px;
+  --radius-lg: 18px;
+  --tap: 48px; /* minimum touch target */
+  --gap: 12px;
+  --page-max: 520px;
+
+  --shadow: 0 2px 12px rgb(0 0 0 / 0.35);
+}
+
+/* ---- DARK (default): panel at night, EFIS palette ---- */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0a0d12;
+  --surface: #131820;
+  --surface-2: #1b222d;
+  --line: #263140;
+  --line-strong: #38465a;
+
+  --text: #e6edf3;
+  --text-dim: #92a3b3;
+  --text-faint: #5c6b7a;
+
+  --accent: #37d388;        /* instrument green: go, correct, on-glideslope */
+  --accent-contrast: #04130b;
+  --caution: #ffb454;       /* amber: caution, learning */
+  --warning: #ff5d5d;       /* red: warning, wrong, again */
+  --info: #57c7ff;          /* EFIS cyan: sky, labels, links */
+  --special: #d879e8;       /* sectional magenta */
+
+  --accent-soft: rgb(55 211 136 / 0.14);
+  --caution-soft: rgb(255 180 84 / 0.14);
+  --warning-soft: rgb(255 93 93 / 0.14);
+  --info-soft: rgb(87 199 255 / 0.13);
+  --special-soft: rgb(216 121 232 / 0.14);
+
+  /* airspace diagram fills */
+  --as-b: #57c7ff;
+  --as-c: #d879e8;
+  --as-d: #6ea8ff;
+  --as-e: #8fd3a8;
+  --as-g: #b7a06a;
+}
+
+/* ---- DAY: sectional-chart paper ---- */
+:root[data-theme='day'] {
+  color-scheme: light;
+
+  --bg: #efece2;
+  --surface: #faf8f1;
+  --surface-2: #f1eddf;
+  --line: #d8d2bf;
+  --line-strong: #b4ac93;
+
+  --text: #20262e;
+  --text-dim: #5a6674;
+  --text-faint: #8b95a1;
+
+  --accent: #157f4d;
+  --accent-contrast: #ffffff;
+  --caution: #b26a00;
+  --warning: #c22f2f;
+  --info: #0f6fa8;
+  --special: #a3319f;
+
+  --accent-soft: rgb(21 127 77 / 0.12);
+  --caution-soft: rgb(178 106 0 / 0.13);
+  --warning-soft: rgb(194 47 47 / 0.12);
+  --info-soft: rgb(15 111 168 / 0.11);
+  --special-soft: rgb(163 49 159 / 0.12);
+
+  --as-b: #0f6fa8;
+  --as-c: #a3319f;
+  --as-d: #2b5fb8;
+  --as-e: #3d8f5f;
+  --as-g: #8a744a;
+
+  --shadow: 0 2px 10px rgb(60 55 40 / 0.18);
+}
+
+/* ---- NIGHT: red-on-black, preserves dark adaptation ----
+ * Every hue collapses to reds/dim reds. Blue light is what destroys
+ * rhodopsin regeneration, so nothing below ~600nm-looking is allowed. */
+:root[data-theme='night'] {
+  color-scheme: dark;
+
+  --bg: #000000;
+  --surface: #120404;
+  --surface-2: #1c0707;
+  --line: #341010;
+  --line-strong: #4d1717;
+
+  --text: #ff5040;
+  --text-dim: #b03428;
+  --text-faint: #6e2019;
+
+  --accent: #ff5040;
+  --accent-contrast: #1c0300;
+  --caution: #ff7a30;
+  --warning: #ff2e1f;
+  --info: #ff6a55;
+  --special: #ff5040;
+
+  --accent-soft: rgb(255 80 64 / 0.14);
+  --caution-soft: rgb(255 122 48 / 0.14);
+  --warning-soft: rgb(255 46 31 / 0.16);
+  --info-soft: rgb(255 106 85 / 0.12);
+  --special-soft: rgb(255 80 64 / 0.12);
+
+  --as-b: #ff6a55;
+  --as-c: #ff5040;
+  --as-d: #e04435;
+  --as-e: #b03428;
+  --as-g: #8a2820;
+
+  --shadow: none;
+}
+
+/* Night mode: kill any stray brightness from images/emoji */
+:root[data-theme='night'] img,
+:root[data-theme='night'] .emoji {
+  filter: grayscale(1) sepia(1) saturate(4) hue-rotate(-15deg) brightness(0.7);
+}
