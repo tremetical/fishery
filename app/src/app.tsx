@@ -11,6 +11,9 @@ import {
 } from './components/icons';
 import { HomePage } from './pages/Home';
 import { ToolAirspacePage } from './pages/ToolAirspace';
+import { UnitPage } from './pages/Unit';
+import { LessonPage } from './pages/Lesson';
+import { CheckpointPage } from './pages/Checkpoint';
 import { ToolMetarPage } from './pages/ToolMetar';
 import { ToolWbPage } from './pages/ToolWb';
 import { StudyPage } from './pages/Study';
@@ -63,6 +66,21 @@ export function App(): JSX.Element {
     case 'progress':
       page = <ProgressPage />;
       title = 'PROGRESS';
+      break;
+    case 'unit':
+      page = <UnitPage route={route} />;
+      title = 'COURSE';
+      backTo = '';
+      break;
+    case 'lesson':
+      page = <LessonPage route={route} />;
+      title = 'LESSON';
+      showNav = false;
+      break;
+    case 'checkpoint':
+      page = <CheckpointPage route={route} />;
+      title = 'CHECKPOINT';
+      showNav = false;
       break;
     case 'tools': {
       const tool = route.parts[1];

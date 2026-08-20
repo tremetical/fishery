@@ -154,6 +154,76 @@
   letter-spacing: 0.04em;
 }
 
+/* ---------- Course path ---------- */
+
+.path {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+.path::before {
+  content: '';
+  position: absolute;
+  left: 33px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: var(--line);
+}
+
+.path-node {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 10px 14px 10px 10px;
+  min-height: 64px;
+  color: var(--text);
+  position: relative;
+  z-index: 1;
+}
+.path-node:active { background: var(--surface-2); }
+.path-node.is-current { border-color: var(--accent); }
+.path-node.is-locked { opacity: 0.55; }
+.path-node.is-done .tile-title { color: var(--text-dim); }
+
+.path-ring {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+}
+.path-ring svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.path-ring-track {
+  fill: var(--surface-2);
+  stroke: var(--line);
+  stroke-width: 3;
+}
+.path-ring-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.path-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+}
+
 /* ---------- Exam ---------- */
 
 .choice-btn {

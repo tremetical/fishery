@@ -248,8 +248,8 @@ function SpellDrill(): JSX.Element {
       <div class="session-actions">
         {revealed ? (
           <SelfGrade
-            onMiss={() => { tally.addMiss(); next(); }}
-            onHit={() => { tally.addHit(); next(); }}
+            onMiss={() => { void store.bumpDrill('spell'); tally.addMiss(); next(); }}
+            onHit={() => { void store.bumpDrill('spell'); tally.addHit(); next(); }}
           />
         ) : (
           <button class="reveal-btn" onClick={() => setRevealed(true)}>
@@ -320,8 +320,8 @@ function CallsDrill(): JSX.Element {
       <div class="session-actions">
         {revealed ? (
           <SelfGrade
-            onMiss={() => { tally.addMiss(); next(); }}
-            onHit={() => { tally.addHit(); next(); }}
+            onMiss={() => { void store.bumpDrill('calls'); tally.addMiss(); next(); }}
+            onHit={() => { void store.bumpDrill('calls'); tally.addHit(); next(); }}
           />
         ) : (
           <button class="reveal-btn" onClick={() => setRevealed(true)}>

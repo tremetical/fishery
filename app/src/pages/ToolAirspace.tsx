@@ -1,5 +1,6 @@
 import type { JSX } from 'preact';
-import { useState } from 'preact/hooks';
+import { useRef, useState } from 'preact/hooks';
+import { store } from '../lib/store';
 
 /*
  * Interactive airspace cross-section — the PHAK figure, but tappable.
@@ -84,7 +85,15 @@ const ROWS: { k: keyof ClassInfo; label: string }[] = [
 ];
 
 export function ToolAirspacePage(): JSX.Element {
-  const [sel, setSel] = useState<ClassId>('B');
+  const [sel, setSelRaw] = useState<ClassId>('B');
+  const explored = useRef<Set<ClassId>>(new Set(['B']));
+  const setSel = (id: ClassId) => {
+    if (!explored.current.has(id)) {
+      explored.current.add(id);
+      void store.bumpDrill('airspace');
+    }
+    setSelRaw(id);
+  };
   const info = INFO[sel];
 
   const cls = (id: ClassId) => `as-region ${sel === id ? 'as-sel' : ''}`;

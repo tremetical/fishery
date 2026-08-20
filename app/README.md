@@ -12,6 +12,13 @@ airplane mode.
 
 ## What's inside
 
+- **The path** — a Duolingo-style course: 14 ordered units (phonetic
+  alphabet → radio calls → airspace → … → the written), each made of
+  bite-size lessons, a hands-on drill, and a **checkpoint mini-test**
+  (80% to pass, unlimited retries, fresh questions each attempt). Passing
+  unlocks the next unit; the final unit requires a passing full-length sim.
+  The Study tab is never locked, and the spaced-repetition engine keeps
+  everything the path introduces coming back on schedule.
 - **Spaced repetition** — an Anki-style SM-2 scheduler (learning steps, ease
   factor, lapse handling, ±5% fuzz) with **leech detection**: cards that
   keep failing get flagged as trouble spots and surfaced separately.

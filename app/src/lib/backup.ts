@@ -16,7 +16,7 @@ interface BackupFile {
   kv: Record<string, unknown>;
 }
 
-const KV_KEYS = ['settings', 'day'];
+const KV_KEYS = ['settings', 'day', 'drills'];
 
 export async function exportBackup(): Promise<void> {
   const [cards, log, exams] = await Promise.all([

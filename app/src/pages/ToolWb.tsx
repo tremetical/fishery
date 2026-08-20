@@ -1,6 +1,7 @@
 import type { JSX } from 'preact';
 import { useState } from 'preact/hooks';
 import { makeWbProblem, WB_AIRCRAFT, type WbProblem } from '../lib/wbgen';
+import { store } from '../lib/store';
 
 /*
  * Weight & balance worksheet: the app hands you a loading scenario and
@@ -111,10 +112,10 @@ export function ToolWbPage(): JSX.Element {
             </p>
             {verdict === null ? (
               <div class="gradebar mt" style="grid-template-columns: 1fr 1fr">
-                <button class="gradebtn grade-2" onClick={() => setVerdict(true)}>
+                <button class="gradebtn grade-2" onClick={() => { void store.bumpDrill('wb'); setVerdict(true); }}>
                   Good to fly
                 </button>
-                <button class="gradebtn grade-0" onClick={() => setVerdict(false)}>
+                <button class="gradebtn grade-0" onClick={() => { void store.bumpDrill('wb'); setVerdict(false); }}>
                   Out of limits
                 </button>
               </div>

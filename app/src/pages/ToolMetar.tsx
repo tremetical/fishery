@@ -1,5 +1,6 @@
 import type { JSX } from 'preact';
 import { useState } from 'preact/hooks';
+import { store } from '../lib/store';
 import {
   makeMetar,
   rawMetar,
@@ -32,6 +33,7 @@ export function ToolMetarPage(): JSX.Element {
   const actual = category(m);
 
   const next = () => {
+    void store.bumpDrill('metar');
     setM(makeMetar());
     setGuess(null);
     setRevealed(false);

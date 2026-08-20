@@ -30,12 +30,14 @@ export interface LogEntry {
 
 export interface ExamResult {
   ts: number;
-  mode: 'practice' | 'sim';
+  mode: 'practice' | 'sim' | 'checkpoint';
   total: number;
   correct: number;
   seconds: number;
   areas: Record<string, { correct: number; total: number }>;
   missedIds: string[];
+  /** unit id, when mode === 'checkpoint' */
+  checkpoint?: string;
 }
 
 export interface Settings {
@@ -64,6 +66,8 @@ let settings: Settings = { ...DEFAULT_SETTINGS };
 let day: DayCounter = { date: localDate(Date.now()), introduced: 0, reviews: 0 };
 let log: LogEntry[] = [];
 let exams: ExamResult[] = [];
+/** lifetime rep counters for the interactive drills (spell, calls, metar…) */
+let drills: Record<string, number> = {};
 let ready = false;
 let persisted = false;
 
@@ -95,15 +99,17 @@ let initPromise: Promise<void> | null = null;
 export function initStore(): Promise<void> {
   if (initPromise) return initPromise;
   initPromise = (async () => {
-    const [states, kvSettings, kvDay, logRows, examRows] = await Promise.all([
+    const [states, kvSettings, kvDay, logRows, examRows, kvDrills] = await Promise.all([
       idb.getAll<CardState>('cards'),
       idb.get<Settings>('kv', 'settings'),
       idb.get<DayCounter>('kv', 'day'),
       idb.getAll<LogEntry>('log'),
       idb.getAll<ExamResult>('exams'),
+      idb.get<Record<string, number>>('kv', 'drills'),
     ]);
     for (const s of states) cardStates.set(s.id, s);
     if (kvSettings) settings = { ...DEFAULT_SETTINGS, ...kvSettings };
+    if (kvDrills) drills = kvDrills;
     if (kvDay) day = kvDay;
     rollDay(Date.now());
     log = logRows.sort((a, b) => a.ts - b.ts);
@@ -199,6 +205,16 @@ export const store = {
   async addExamResult(r: ExamResult): Promise<void> {
     exams.push(r);
     await idb.add('exams', r);
+    notify();
+  },
+
+  get drills(): Readonly<Record<string, number>> {
+    return drills;
+  },
+
+  async bumpDrill(kind: string, n = 1): Promise<void> {
+    drills = { ...drills, [kind]: (drills[kind] ?? 0) + n };
+    await idb.put('kv', drills, 'drills');
     notify();
   },
 

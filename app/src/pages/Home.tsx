@@ -2,44 +2,71 @@ import type { JSX } from 'preact';
 import { navigate } from '../lib/router';
 import { DECKS } from '../content';
 import { store, useStore } from '../lib/store';
+import {
+  buildUnits,
+  continueTarget,
+  stepRoute,
+  unitDone,
+  unitUnlocked,
+  unitProgress,
+} from '../lib/course';
 
 export function HomePage(): JSX.Element {
   useStore();
 
   const counts = DECKS.map((d) => store.deckCounts(d));
   const due = counts.reduce((n, c) => n + c.due, 0);
-  const fresh = Math.min(
-    counts.reduce((n, c) => n + c.newCards, 0),
-    Math.max(0, store.settings.newPerDay - store.introducedToday),
-  );
   const leeches = store.leeches(DECKS);
   const streak = store.streak();
   const reviewsToday = store.reviewsToday;
 
+  const units = buildUnits();
+  const target = continueTarget(units);
+
   const hour = new Date().getHours();
-  const greeting = hour < 5 ? 'Early start' : hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  const greeting =
+    hour < 5 ? 'Early start' : hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
 
   return (
     <div class="stack">
       <h1 class="page-h">
         {greeting}, pilot.
         <span class="sub">
-          {due + fresh > 0
-            ? 'The schedule has work for you.'
-            : reviewsToday > 0
-              ? 'All caught up. Nice.'
-              : 'Nothing due yet — start something new.'}
+          {target
+            ? `Next on the path: ${target.unit.spec.title} — ${target.step.label.toLowerCase()}.`
+            : 'Course complete. Keep the reviews alive.'}
         </span>
       </h1>
 
-      <button
-        class="btn btn-primary btn-block btn-big"
-        onClick={() => navigate('session/all')}
-      >
-        {due + fresh > 0 ? `Start session — ${due} due · ${fresh} new` : 'Free review'}
-      </button>
+      {target ? (
+        <button
+          class="btn btn-primary btn-block btn-big"
+          onClick={() => navigate(stepRoute(target.step))}
+        >
+          Continue — {target.step.label}
+        </button>
+      ) : (
+        <button class="btn btn-primary btn-block btn-big" onClick={() => navigate('session/all')}>
+          Review session
+        </button>
+      )}
 
-      <div class="panel">
+      {due > 0 && (
+        <button class="tile" style="border-color: var(--caution)" onClick={() => navigate('session/all')}>
+          <div class="tile-icon" style="background: var(--caution-soft)">
+            <span class="emoji">⏰</span>
+          </div>
+          <div class="tile-body">
+            <div class="tile-title">Reviews due</div>
+            <div class="tile-sub">
+              {due} card{due === 1 ? '' : 's'} the scheduler wants back — do these before new stuff
+            </div>
+          </div>
+          <span class="badge badge-learning">{due}</span>
+        </button>
+      )}
+
+      <div class="panel" style="padding: 10px 14px">
         <div class="grid3">
           <div class="center">
             <div class="stat-num">{reviewsToday}</div>
@@ -66,32 +93,57 @@ export function HomePage(): JSX.Element {
           <div class="tile-body">
             <div class="tile-title">Trouble spots</div>
             <div class="tile-sub">
-              {leeches.length} card{leeches.length === 1 ? '' : 's'} keep
-              failing — worth a different approach than repetition
+              {leeches.length} card{leeches.length === 1 ? '' : 's'} keep failing — worth a different
+              approach than repetition
             </div>
           </div>
         </button>
       )}
 
-      <button class="tile" onClick={() => navigate('radio/calls')}>
-        <div class="tile-icon" style="background: var(--info-soft)">
-          <span class="emoji">📡</span>
-        </div>
-        <div class="tile-body">
-          <div class="tile-title">Radio reps</div>
-          <div class="tile-sub">Two minutes of readbacks, out loud</div>
-        </div>
-      </button>
+      <div class="panel-title" style="margin: 8px 2px 0">The path</div>
 
-      <button class="tile" onClick={() => navigate('exam')}>
-        <div class="tile-icon" style="background: var(--special-soft)">
-          <span class="emoji">📝</span>
-        </div>
-        <div class="tile-body">
-          <div class="tile-title">Written exam practice</div>
-          <div class="tile-sub">Question bank & timed simulation</div>
-        </div>
-      </button>
+      <div class="path">
+        {units.map((u, i) => {
+          const unlocked = unitUnlocked(units, i);
+          const finished = unitDone(u);
+          const { done, total } = unitProgress(u);
+          const isCurrent = target?.unit === u;
+          return (
+            <button
+              key={u.spec.id}
+              class={`path-node ${finished ? 'is-done' : ''} ${isCurrent ? 'is-current' : ''} ${!unlocked ? 'is-locked' : ''}`}
+              disabled={!unlocked}
+              onClick={() => navigate(`unit/${u.spec.id}`)}
+            >
+              <div class="path-ring">
+                <svg viewBox="0 0 44 44" aria-hidden>
+                  <circle cx="22" cy="22" r="19" class="path-ring-track" />
+                  <circle
+                    cx="22"
+                    cy="22"
+                    r="19"
+                    class="path-ring-fill"
+                    stroke-dasharray={`${(done / total) * 119.4} 119.4`}
+                  />
+                </svg>
+                <span class="emoji path-icon">{!unlocked ? '🔒' : finished ? '✅' : u.spec.icon}</span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-title">{u.spec.title}</div>
+                <div class="tile-sub">{u.spec.tagline}</div>
+              </div>
+              <span class="mono tiny dim">
+                {done}/{total}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <p class="tiny faint">
+        The path orders what's next; the Study tab is never locked. Reviews
+        keep coming back on schedule either way — that part is the engine.
+      </p>
     </div>
   );
 }
