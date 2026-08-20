@@ -1,0 +1,327 @@
+import { qbank } from './types';
+
+/* Systems, performance, weight & balance, aeromedical questions. */
+
+export const systemsQuestions = qbank('xs', 'systems', [
+  {
+    slug: 'carb-ice-first',
+    q: 'With a fixed-pitch propeller, the first indication of carburetor ice is usually —',
+    choices: [
+      'a rise in oil temperature',
+      'a decrease in RPM',
+      'engine roughness followed by a manifold pressure drop',
+    ],
+    answer: 1,
+    why: 'Ice chokes the venturi: RPM decays first, then roughness. (Constant-speed props show a manifold pressure drop instead.)',
+    cite: 'PHAK Ch. 7',
+  },
+  {
+    slug: 'carb-heat-mixture',
+    q: 'Applying carburetor heat —',
+    choices: [
+      'enriches the fuel/air mixture',
+      'leans the fuel/air mixture',
+      'has no effect on mixture',
+    ],
+    answer: 0,
+    why: 'Hot air is less dense, so the same fuel with less air = richer mixture (and a small power loss).',
+    cite: 'PHAK Ch. 7',
+  },
+  {
+    slug: 'mags-independent',
+    q: 'The engine continues to run with the master switch OFF because the ignition —',
+    choices: [
+      'draws from the battery bus',
+      'is powered by engine-driven magnetos, independent of the electrical system',
+      'uses the alternator directly',
+    ],
+    answer: 1,
+    why: 'Magnetos are self-contained generators. The master kills radios and lights, not the spark — which is also why a “dead” prop can still be live.',
+    cite: 'PHAK Ch. 7',
+  },
+  {
+    slug: 'detonation-causes',
+    q: 'Detonation is most likely caused by —',
+    choices: [
+      'using a lower-than-specified fuel grade at high power',
+      'an overly rich mixture at idle',
+      'carburetor ice',
+    ],
+    answer: 0,
+    why: 'Low octane + high cylinder temps/pressures = explosive combustion. Cures: proper fuel, enrich, reduce power, improve cooling.',
+    cite: 'PHAK Ch. 7',
+  },
+  {
+    slug: 'pitot-blocked',
+    q: 'The pitot tube and its drain are completely blocked by ice; the static port is clear. The airspeed indicator will —',
+    choices: [
+      'read zero',
+      'behave like an altimeter — increasing in a climb, decreasing in a descent',
+      'stick at the last airspeed regardless of altitude',
+    ],
+    answer: 1,
+    why: 'Trapped ram pressure vs changing static = altimeter behavior. The dangerous case: it reads HIGHER as you climb.',
+    cite: 'PHAK Ch. 8',
+  },
+  {
+    slug: 'static-blocked',
+    q: 'With a blocked static port (pitot clear), the vertical speed indicator will —',
+    choices: ['read zero continuously', 'over-read in climbs', 'freeze at the current rate'],
+    answer: 0,
+    why: 'Static blocked: VSI reads zero, altimeter freezes, airspeed errors grow with distance from the blockage altitude. Alternate static is the fix.',
+    cite: 'PHAK Ch. 8',
+  },
+  {
+    slug: 'gyro-vacuum-fail',
+    q: 'The vacuum pump fails in a typical trainer. Which instruments become unreliable?',
+    choices: [
+      'Attitude indicator and heading indicator',
+      'Turn coordinator and magnetic compass',
+      'Altimeter and airspeed indicator',
+    ],
+    answer: 0,
+    why: 'AI and HI are vacuum-driven; the turn coordinator is electric on purpose so one failure never takes all bank information.',
+    cite: 'PHAK Ch. 8',
+  },
+  {
+    slug: 'asi-white-arc',
+    q: 'The white arc on the airspeed indicator represents —',
+    choices: [
+      'the normal operating range',
+      'the flap operating range',
+      'the caution range',
+    ],
+    answer: 1,
+    why: 'White arc: VS0 (bottom) to VFE (top). Green: VS1–VNO. Yellow: smooth air only. Red line: VNE.',
+    cite: 'PHAK Ch. 8',
+  },
+]);
+
+export const performanceQuestions = qbank('xf', 'performance', [
+  {
+    slug: 'da-factors',
+    q: 'Density altitude increases with —',
+    choices: [
+      'higher temperature, higher elevation, and higher humidity',
+      'lower temperature and higher pressure',
+      'higher pressure and lower humidity',
+    ],
+    answer: 0,
+    why: 'Hot, high, and humid all thin the air. High DA degrades power, thrust, and lift simultaneously.',
+    cite: 'PHAK Ch. 11',
+  },
+  {
+    slug: 'pa-calc',
+    q: 'Field elevation 1,000 ft, altimeter setting 29.42. Pressure altitude is approximately —',
+    choices: ['500 ft', '1,500 ft', '1,000 ft'],
+    answer: 1,
+    why: '(29.92 − 29.42) × 1,000 = 500 ft to ADD: 1,000 + 500 = 1,500 ft. Low pressure raises pressure altitude.',
+    cite: 'PHAK Ch. 11',
+  },
+  {
+    slug: 'headwind-half',
+    q: 'Landing Runway 34, wind 010° at 12 knots. The crosswind component is roughly —',
+    choices: ['3 knots', '6 knots', '12 knots'],
+    answer: 1,
+    why: '30° off the runway ≈ half the wind as crosswind (sin 30° = 0.5): about 6 knots — and ~10 knots of headwind.',
+    cite: 'PHAK Ch. 11',
+  },
+  {
+    slug: 'tailwind-takeoff',
+    q: 'Compared with calm wind, a 10-knot tailwind will make the takeoff ground roll —',
+    choices: [
+      'slightly shorter',
+      'about the same',
+      'dramatically longer — typically 50% or more',
+    ],
+    answer: 2,
+    why: 'You must reach liftoff AIRspeed, so the wheels see liftoff speed PLUS the tailwind. Distance grows with the square of groundspeed.',
+    cite: 'PHAK Ch. 11; POH charts',
+  },
+  {
+    slug: 'high-da-liftoff',
+    q: 'At high density altitude, the indicated airspeed at which the airplane lifts off is —',
+    choices: [
+      'the same as at sea level, but true airspeed and ground roll are higher',
+      'higher than at sea level',
+      'lower than at sea level',
+    ],
+    answer: 0,
+    why: 'The wing needs the same dynamic pressure — same IAS. But that IAS represents a higher TAS in thin air, hence the longer roll and flatter climb.',
+    cite: 'PHAK Ch. 11',
+  },
+  {
+    slug: 'book-margin',
+    q: 'POH takeoff performance numbers were achieved with a new airplane and a test pilot. You should —',
+    choices: [
+      'apply at least a 50% safety margin',
+      'use them exactly as printed',
+      'reduce them by 10% for experience',
+    ],
+    answer: 0,
+    why: 'Worn engines, imperfect technique, and non-standard surfaces all add distance. If book × 1.5 doesn’t fit, don’t go.',
+    cite: 'AFH; FAA guidance',
+  },
+  {
+    slug: 'std-temp-5000',
+    q: 'Standard temperature at 5,000 ft pressure altitude is about —',
+    choices: ['15°C', '5°C', '0°C'],
+    answer: 1,
+    why: '15°C at sea level minus ~2°C per 1,000 ft: 15 − 10 = 5°C. Warmer than standard = higher density altitude.',
+    cite: 'PHAK Ch. 11',
+  },
+]);
+
+export const wbQuestions = qbank('xb', 'wb', [
+  {
+    slug: 'cg-calc',
+    q: 'Total weight 2,200 lb, total moment 92,400 lb-in. The CG is —',
+    choices: ['40.0 in', '42.0 in', '44.0 in'],
+    answer: 1,
+    why: 'CG = moment ÷ weight = 92,400 / 2,200 = 42.0 inches aft of datum.',
+    cite: 'PHAK Ch. 10',
+  },
+  {
+    slug: 'fuel-weight',
+    q: '38 gallons of aviation gasoline weighs —',
+    choices: ['228 lb', '285 lb', '190 lb'],
+    answer: 0,
+    why: 'Avgas is 6 lb/gal: 38 × 6 = 228 lb.',
+    cite: 'PHAK Ch. 10',
+  },
+  {
+    slug: 'aft-cg-effect',
+    q: 'An airplane loaded behind its aft CG limit will —',
+    choices: [
+      'be nose-heavy and hard to flare',
+      'be dangerously unstable in pitch with degraded stall/spin recovery',
+      'have a higher stall speed than normal',
+    ],
+    answer: 1,
+    why: 'Aft CG: less stability, light control forces, and recovery from a stall or spin may be impossible. (Higher stall speed is a FORWARD-CG effect.)',
+    cite: 'PHAK Ch. 10',
+  },
+  {
+    slug: 'burn-shift',
+    q: 'As fuel burns off in flight, the CG —',
+    choices: [
+      'never moves',
+      'moves away from the fuel tank arm — so W&B must be checked for landing as well as takeoff',
+      'always moves aft',
+    ],
+    answer: 1,
+    why: 'Unless the tank sits exactly at the CG, burning fuel shifts the CG away from the tank station. Verify both ends of the flight.',
+    cite: 'PHAK Ch. 10',
+  },
+  {
+    slug: 'empty-weight',
+    q: 'Basic empty weight includes —',
+    choices: [
+      'unusable fuel and full operating fluids including oil',
+      'full fuel and one pilot',
+      'the airframe only',
+    ],
+    answer: 0,
+    why: 'Airframe, engine, permanent equipment, unusable fuel, hydraulics, and (typically) full oil. It comes from YOUR aircraft’s current W&B record.',
+    cite: 'PHAK Ch. 10',
+  },
+  {
+    slug: 'shift-formula',
+    q: 'Moving 40 lb of baggage from the aft compartment (arm 120) to the forward one (arm 20) in a 2,000-lb airplane shifts the CG —',
+    choices: ['2.0 inches forward', '4.0 inches forward', '1.0 inch forward'],
+    answer: 0,
+    why: 'ΔCG = (weight moved × distance) ÷ total weight = (40 × 100) / 2,000 = 2.0 in, toward the new location (forward).',
+    cite: 'PHAK Ch. 10',
+  },
+]);
+
+export const aeromedQuestions = qbank('xm', 'aeromed', [
+  {
+    slug: 'hypoxia-insidious',
+    q: 'The most dangerous characteristic of hypoxia is —',
+    choices: [
+      'sharp chest pain',
+      'impaired judgment and euphoria that mask the condition',
+      'sudden unconsciousness with no warning at low altitude',
+    ],
+    answer: 1,
+    why: 'Hypoxia degrades the very judgment needed to recognize it — often with a false sense of well-being.',
+    cite: 'PHAK Ch. 17; AIM 8-1-2',
+  },
+  {
+    slug: 'hyperventilation',
+    q: 'A stressed passenger is breathing rapidly, reporting tingling fingers and dizziness. The best response is —',
+    choices: [
+      'descend immediately',
+      'have them slow their breathing (talk, or breathe into a bag)',
+      'administer supplemental oxygen at high flow',
+    ],
+    answer: 1,
+    why: 'Hyperventilation is excess CO₂ loss — slowing the breathing rate restores balance. (If hypoxia is possible too, use oxygen AND slow breathing.)',
+    cite: 'AIM 8-1-3',
+  },
+  {
+    slug: 'co-source',
+    q: 'Carbon monoxide most commonly enters a light-airplane cabin through —',
+    choices: [
+      'the fuel vents',
+      'a leaking exhaust system via the cabin heater',
+      'the static ports',
+    ],
+    answer: 1,
+    why: 'Heater muffs wrap the exhaust; a crack feeds CO into the heat ducts. Headache/drowsiness with heat on: heat off, vents open, land.',
+    cite: 'AIM 8-1-4',
+  },
+  {
+    slug: 'spatial-defense',
+    q: 'When outside visual references are lost, the only reliable defense against spatial disorientation is —',
+    choices: [
+      'trusting the seat-of-the-pants sensations',
+      'relying on the flight instruments',
+      'closing your eyes briefly to reset the inner ear',
+    ],
+    answer: 1,
+    why: 'The vestibular system lies in sustained maneuvers. Instrument indications override body sensations, period.',
+    cite: 'AIM 8-1-5',
+  },
+  {
+    slug: 'upslope-runway',
+    q: 'An approach to an upsloping runway creates the illusion of being —',
+    choices: [
+      'too high, tempting a dangerously low approach',
+      'too low, tempting a high approach',
+      'faster than actual',
+    ],
+    answer: 0,
+    why: 'The rising terrain makes the picture look steep — pilots duck under. Use the PAPI/VASI and fly known numbers.',
+    cite: 'AIM 8-1-5',
+  },
+  {
+    slug: 'night-adaptation',
+    q: 'Full dark adaptation of the eyes takes approximately —',
+    choices: ['5 minutes', '30 minutes', '2 hours'],
+    answer: 1,
+    why: 'The rods need ~30 minutes — and one blast of bright white light resets much of it. Red light preserves it (hence this app’s night mode).',
+    cite: 'AIM 8-1-6',
+  },
+  {
+    slug: 'scuba',
+    q: 'After scuba diving requiring a decompression stop, you should wait before flying to 8,000 ft cabin altitude —',
+    choices: ['at least 4 hours', 'at least 12 hours', 'at least 24 hours'],
+    answer: 2,
+    why: 'Decompression-stop dives: 24 hours. Non-decompression dives: 12 hours (for flights below 8,000). Above 8,000: 24 hours regardless.',
+    cite: 'AIM 8-1-2',
+  },
+  {
+    slug: 'macho',
+    q: '“Watch this” is the signature of which hazardous attitude — and its antidote?',
+    choices: [
+      'Impulsivity — “not so fast, think first”',
+      'Macho — “taking chances is foolish”',
+      'Invulnerability — “it could happen to me”',
+    ],
+    answer: 1,
+    why: 'Macho: proving yourself with risk. Each hazardous attitude has a scripted antidote; the exam loves matching them.',
+    cite: 'PHAK Ch. 2',
+  },
+]);

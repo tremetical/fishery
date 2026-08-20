@@ -63,6 +63,9 @@ export const idb = {
   add: (store: StoreName, value: unknown): Promise<IDBValidKey> =>
     tx(store, 'readwrite', (s) => s.add(value)),
 
+  del: (store: StoreName, key: IDBValidKey): Promise<undefined> =>
+    tx(store, 'readwrite', (s) => s.delete(key) as IDBRequest<undefined>),
+
   clear: (store: StoreName): Promise<undefined> =>
     tx(store, 'readwrite', (s) => s.clear() as IDBRequest<undefined>),
 
