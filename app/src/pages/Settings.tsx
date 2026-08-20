@@ -3,6 +3,7 @@ import { useRef, useState } from 'preact/hooks';
 import { getTheme, setTheme, THEMES, type Theme } from '../lib/theme';
 import { store, useStore } from '../lib/store';
 import { exportBackup, importBackup } from '../lib/backup';
+import { storageMode } from '../lib/db';
 
 export function SettingsPage(): JSX.Element {
   useStore();
@@ -129,10 +130,13 @@ export function SettingsPage(): JSX.Element {
           }}
         />
         <p class="tiny faint mt">
-          Durable storage: {store.persisted ? 'granted' : 'not granted'} —{' '}
-          {store.persisted
-            ? 'the browser has promised not to evict this app’s data.'
-            : 'install the app to your home screen to make eviction much less likely, and keep backups.'}
+          {storageMode() === 'memory'
+            ? '⚠︎ This browser refused persistent storage — data lives in memory only and is lost on reload. Use the installed app or a normal browser tab.'
+            : `Durable storage: ${
+                store.persisted
+                  ? 'granted — the browser has promised not to evict this app’s data.'
+                  : 'not granted — install the app to your home screen to make eviction much less likely, and keep backups.'
+              }`}
         </p>
         {msg && <p class="small mt">{msg}</p>}
       </section>
