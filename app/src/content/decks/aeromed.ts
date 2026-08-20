@@ -1,0 +1,141 @@
+import { deck } from '../types';
+
+export const aeromedDeck = deck(
+  {
+    id: 'aeromed',
+    subject: 'aeromed',
+    title: 'Aeromedical factors',
+    description:
+      'Hypoxia, illusions, night vision, and the honest self-assessment that keeps you off the NTSB database.',
+  },
+  [
+    {
+      slug: 'hypoxia-types',
+      front: 'The four types of **hypoxia**?',
+      back: 'Hypoxic (altitude — not enough O₂ pressure), hypemic (blood can’t carry it — CO poisoning, anemia), stagnant (blood isn’t moving — g-loads, cold), histotoxic (cells can’t use it — alcohol, drugs).',
+      why: 'One drink at altitude is a double hit: histotoxic + hypoxic.',
+      cite: 'PHAK Ch. 17; AIM 8-1-2',
+    },
+    {
+      slug: 'hypoxia-symptoms',
+      front: 'Early symptoms of hypoxia — and the dangerous part about them?',
+      back: 'Euphoria, headache, impaired judgment, cyanosis (blue nails/lips), tingling, visual dimming. Dangerous because judgment goes FIRST — you feel fine, even great.',
+      cite: 'PHAK Ch. 17',
+    },
+    {
+      slug: 'hyperventilation',
+      front: '**Hyperventilation**: cause, symptoms, fix?',
+      back: 'Anxiety/stress → blowing off too much CO₂. Symptoms overlap hypoxia (tingling, dizziness, spasm). Fix: slow the breathing — talk, breathe into a bag, consciously calm down.',
+      why: 'If in doubt at altitude: oxygen ON first (treats hypoxia), then slow breathing (treats both).',
+      cite: 'PHAK Ch. 17; AIM 8-1-3',
+    },
+    {
+      slug: 'co-poisoning',
+      front: 'Winter flight, cabin heat on, headache and drowsiness building — suspect what, do what?',
+      back: 'Carbon monoxide from a cracked exhaust via the heater muff (hypemic hypoxia). Heat OFF, vents OPEN, land ASAP — consider oxygen if aboard.',
+      cite: 'PHAK Ch. 17; AIM 8-1-4',
+    },
+    {
+      slug: 'ear-block',
+      front: 'Ear pain on descent — what’s happening and the fixes?',
+      back: 'Middle-ear pressure can’t equalize through the eustachian tube. Fix: yawn, swallow, valsalva; slow the descent or climb back up briefly. Never fly congested — decongestant-masked colds cause real barotrauma.',
+      cite: 'AIM 8-1-2',
+    },
+    {
+      slug: 'spatial-d',
+      front: 'What is **spatial disorientation**, and the only reliable defense?',
+      back: 'Your vestibular/body senses lying about attitude when visual references vanish. Defense: believe the instruments, period.',
+      why: '178 seconds is the famous life expectancy of a VFR pilot in IMC. The inner ear cannot be trained honest.',
+      cite: 'PHAK Ch. 17; AIM 8-1-5',
+    },
+    {
+      slug: 'leans',
+      front: 'The **leans** — mechanism?',
+      back: 'After a slow, unnoticed roll, a correction back to level feels like banking the other way — you “lean” toward the phantom bank. Fluid in the semicircular canals settled during the slow roll.',
+      cite: 'AIM 8-1-5',
+    },
+    {
+      slug: 'graveyard-spiral',
+      front: 'The **graveyard spiral** — sequence?',
+      back: 'In a prolonged banked turn the ear re-levels; rolling out feels like turning opposite, so the pilot re-banks. Altitude loss → pulls back → tightens the spiral. Recovery requires instruments: level the wings FIRST.',
+      cite: 'AIM 8-1-5',
+    },
+    {
+      slug: 'somatogravic',
+      front: 'The **somatogravic illusion** — when does it strike?',
+      back: 'Rapid acceleration (takeoff, go-around) feels like pitching UP → pilot pushes the nose down, into the ground. Worst at night with no horizon.',
+      cite: 'AIM 8-1-5',
+    },
+    {
+      slug: 'runway-illusions',
+      front: 'An **upsloping** runway (or unusually wide one) creates what illusion — with what result?',
+      back: 'You feel too HIGH → you fly a dangerously LOW approach. Narrow/downsloping does the opposite (feel low, fly high).',
+      why: 'Wire: “up-slope = feel up = fly down.” Use the VASI/PAPI and known pattern altitudes to override the picture.',
+      cite: 'AIM 8-1-5',
+    },
+    {
+      slug: 'black-hole',
+      front: 'The **black-hole approach**?',
+      back: 'Night approach over dark featureless terrain to a lit runway — pilots consistently fly too LOW. Fly a normal glidepath by instruments/PAPI, not by feel.',
+      cite: 'AIM 8-1-5',
+    },
+    {
+      slug: 'night-vision',
+      front: 'How long for full **dark adaptation**, and what protects it?',
+      back: '~30 minutes for the rods. Protect with red/dim lighting, avoiding bright white light (one flash resets much of it), and oxygen discipline above ~5,000 at night.',
+      why: 'This app has a night mode for exactly this reason.',
+      cite: 'PHAK Ch. 17; AIM 8-1-6',
+    },
+    {
+      slug: 'off-center',
+      front: 'How do you look AT something at night?',
+      back: 'Off-center viewing — look 5–10° to the side; the center of the retina (cones) is nearly night-blind. Scan slowly, stop-and-stare in sectors.',
+      cite: 'AIM 8-1-6',
+    },
+    {
+      slug: 'imsafe',
+      front: 'The **IMSAFE** checklist?',
+      back: 'Illness, Medication, Stress, Alcohol, Fatigue, Emotion (or Eating).',
+      why: 'The one checklist run on the pilot instead of the plane. Any hit = ground yourself; nobody else will.',
+      cite: 'PHAK Ch. 2, 17',
+    },
+    {
+      slug: 'medications',
+      front: 'Who decides whether an over-the-counter med grounds you?',
+      back: 'You do — self-grounding is required if the condition OR the medication is impairing (91.17 covers drugs; 61.53 covers medical deficiency). Sedating antihistamines are the classic accident drug.',
+      cite: '14 CFR 61.53, 91.17',
+    },
+    {
+      slug: 'scuba',
+      front: 'Flying after **scuba diving** — the wait times?',
+      back: 'To 8,000 ft: wait 12 hrs after a no-decompression dive, 24 hrs if decompression stops were required. Above 8,000 ft: 24 hrs after ANY dive.',
+      why: 'Evolved nitrogen (the bends) at altitude can be crippling. Relevant to Puget Sound divers.',
+      cite: 'AIM 8-1-2',
+    },
+    {
+      slug: 'fatigue',
+      front: 'Why is **fatigue** called the sneakiest impairment?',
+      back: 'It degrades judgment and reaction like alcohol, but the impaired brain rates ITSELF as fine. Acute vs chronic — chronic needs more than one night’s sleep to clear.',
+      cite: 'PHAK Ch. 17',
+    },
+    {
+      slug: 'hazardous-attitudes',
+      front: 'The five **hazardous attitudes** and their antidotes?',
+      back: 'Anti-authority (“follow the rules”), Impulsivity (“not so fast — think”), Invulnerability (“it could happen to me”), Macho (“taking chances is foolish”), Resignation (“I’m not helpless”).',
+      cite: 'PHAK Ch. 2',
+    },
+    {
+      slug: 'motion-sickness',
+      front: 'Best in-flight responses to **motion sickness**?',
+      back: 'Fresh air, eyes on the horizon, smooth control inputs, cooler cabin — and land if it’s the pilot. Avoid medicating with sedating drugs before flying.',
+      cite: 'AIM 8-1-8',
+      unverified: true,
+    },
+    {
+      slug: 'stress-arc',
+      front: 'How does stress load affect performance?',
+      back: 'Some arousal sharpens performance; past the peak, added stress degrades it fast (inverted-U). High-workload phases (approach) are where accumulated life stress cashes out.',
+      cite: 'PHAK Ch. 17',
+    },
+  ],
+);

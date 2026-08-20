@@ -1,5 +1,15 @@
 import type { Deck, Subject, SubjectId } from './types';
 import { phoneticDeck, phraseologyDeck } from './decks/radio';
+import { airspaceDeck } from './decks/airspace';
+import { metarDeck, wxTheoryDeck } from './decks/weather';
+import { chartsDeck } from './decks/charts';
+import { regsDeck } from './decks/regs';
+import { aeroDeck } from './decks/aero';
+import { systemsDeck } from './decks/systems';
+import { performanceDeck } from './decks/performance';
+import { wbDeck } from './decks/wb';
+import { aeromedDeck } from './decks/aeromed';
+import { proceduresDeck } from './decks/procedures';
 
 export const SUBJECTS: Subject[] = [
   {
@@ -20,12 +30,26 @@ export const SUBJECTS: Subject[] = [
     title: 'Airspace',
     icon: '🗼',
     blurb: 'Classes A–G: dimensions, entry, equipment, VFR minimums.',
+    tools: [
+      {
+        label: 'Airspace explorer',
+        route: 'tools/airspace',
+        hint: 'Tappable cross-section — the whole system in one picture',
+      },
+    ],
   },
   {
     id: 'weather',
     title: 'Weather',
     icon: '🌦️',
     blurb: 'METAR/TAF, fronts, stability, icing, fog, thunderstorms.',
+    tools: [
+      {
+        label: 'METAR Lab',
+        route: 'tools/metar',
+        hint: 'Endless generated reports — call the category, decode it all',
+      },
+    ],
   },
   {
     id: 'charts',
@@ -62,6 +86,13 @@ export const SUBJECTS: Subject[] = [
     title: 'Weight & Balance',
     icon: '⚖️',
     blurb: 'The method: weights, arms, moments, CG, envelopes.',
+    tools: [
+      {
+        label: 'W&B worksheet',
+        route: 'tools/wb',
+        hint: 'Full problems, your arithmetic checked step by step',
+      },
+    ],
   },
   {
     id: 'aeromed',
@@ -77,7 +108,21 @@ export const SUBJECTS: Subject[] = [
   },
 ];
 
-export const DECKS: Deck[] = [phoneticDeck, phraseologyDeck];
+export const DECKS: Deck[] = [
+  phoneticDeck,
+  phraseologyDeck,
+  airspaceDeck,
+  metarDeck,
+  wxTheoryDeck,
+  chartsDeck,
+  regsDeck,
+  aeroDeck,
+  systemsDeck,
+  performanceDeck,
+  wbDeck,
+  aeromedDeck,
+  proceduresDeck,
+];
 
 export function decksFor(subject: SubjectId): Deck[] {
   return DECKS.filter((d) => d.subject === subject);

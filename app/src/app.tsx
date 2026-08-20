@@ -10,6 +10,9 @@ import {
   IconBack,
 } from './components/icons';
 import { HomePage } from './pages/Home';
+import { ToolAirspacePage } from './pages/ToolAirspace';
+import { ToolMetarPage } from './pages/ToolMetar';
+import { ToolWbPage } from './pages/ToolWb';
 import { StudyPage } from './pages/Study';
 import { RadioPage } from './pages/Radio';
 import { ExamPage } from './pages/Exam';
@@ -61,6 +64,23 @@ export function App(): JSX.Element {
       page = <ProgressPage />;
       title = 'PROGRESS';
       break;
+    case 'tools': {
+      const tool = route.parts[1];
+      if (tool === 'airspace') {
+        page = <ToolAirspacePage />;
+        title = 'AIRSPACE';
+      } else if (tool === 'metar') {
+        page = <ToolMetarPage />;
+        title = 'WEATHER';
+      } else if (tool === 'wb') {
+        page = <ToolWbPage />;
+        title = 'WEIGHT & BALANCE';
+      } else {
+        page = <HomePage />;
+      }
+      showNav = false;
+      break;
+    }
     case 'settings':
       page = <SettingsPage />;
       title = 'SETTINGS';

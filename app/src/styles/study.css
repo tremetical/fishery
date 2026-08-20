@@ -154,6 +154,34 @@
   letter-spacing: 0.04em;
 }
 
+/* ---------- Airspace explorer ---------- */
+
+.as-svg {
+  width: 100%;
+  height: auto;
+  touch-action: manipulation;
+}
+.as-region rect,
+rect.as-region {
+  fill-opacity: 0.28;
+  stroke: var(--line-strong);
+  stroke-width: 0.75;
+  transition: fill-opacity 150ms ease;
+  cursor: pointer;
+}
+.as-sel rect,
+rect.as-sel {
+  fill-opacity: 0.62;
+  stroke: var(--text);
+  stroke-width: 1.4;
+}
+.as-letters text {
+  cursor: pointer;
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+}
+
 /* ---------- Session summary ---------- */
 
 .summary-grid {
