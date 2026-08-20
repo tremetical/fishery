@@ -99,6 +99,36 @@ export const wbDeck = deck(
       cite: 'POH Section 6',
     },
     {
+      slug: 'loading-graph',
+      front: 'How does the POH **loading graph** save you multiplication?',
+      back: 'Each line IS a pre-multiplied arm: enter with the item’s weight, read its moment/1000 off the axis. Sum weights and moments, then check the center-of-gravity moment envelope.',
+      cite: 'POH Section 6; PHAK Ch. 10',
+    },
+    {
+      slug: 'ballast',
+      front: 'What is **ballast**, and when might a trainer legally need it?',
+      back: 'Weight added purely to bring the CG into limits (e.g., aft baggage weight with two heavy front-seaters and a forward-CG airplane). Must be secured and documented in the computation.',
+      cite: 'PHAK Ch. 10',
+    },
+    {
+      slug: 'equipment-change',
+      front: 'A new radio was installed. What must change before you compute W&B?',
+      back: 'The aircraft’s W&B record — the installer updates basic empty weight and moment (or notes the equipment list change). Always use the CURRENT record, not the POH sample airplane.',
+      cite: '14 CFR 43; PHAK Ch. 10',
+    },
+    {
+      slug: 'real-weights',
+      front: 'Passenger says “I’m about 170.” What do you use?',
+      back: 'Real numbers: ask directly (winter clothes and bags included), round UP. Standard-weight assumptions are for airlines with statistics on their side — you have four seats and no statistics.',
+      cite: 'PHAK Ch. 10',
+    },
+    {
+      slug: 'zero-fuel-check',
+      front: 'Beyond takeoff and landing, which loading case is worth a glance?',
+      back: 'The zero-fuel/late-flight case: with tank arms ahead of or behind the CG, burning to reserves can walk the CG toward a limit even when takeoff and planned-landing both checked out.',
+      cite: 'PHAK Ch. 10',
+    },
+    {
       slug: 'lateral',
       front: 'Is there a **lateral** (left-right) W&B consideration in a trainer?',
       back: 'Not one you compute — but uneven fuel between wing tanks shows up as a persistent roll trim demand.',

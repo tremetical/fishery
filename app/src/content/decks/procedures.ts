@@ -166,5 +166,78 @@ export const proceduresDeck = deck(
       back: 'That the engine will make full, redundant power before you bet your life on it: mags (both firing/grounded), carb heat function, oil pressure/temp/vacuum/ammeter in range, controls free and correct.',
       cite: 'POH Section 4',
     },
+    // ---- night operations ----
+    {
+      slug: 'night-defs',
+      front: 'Aviation has THREE definitions of “night.” Match each to its rule.',
+      back: 'Sunset–sunrise: position lights on (91.209). End of evening civil twilight to beginning of morning: LOGGING night time (61.51/1.1). 1 hr after sunset–1 hr before sunrise: night passenger CURRENCY landings (61.57).',
+      why: 'Exam favorite. Lights, logging, landings — three clocks.',
+      cite: '14 CFR 1.1, 61.51, 61.57, 91.209',
+    },
+    {
+      slug: 'night-lights-read',
+      front: 'You see a red light on the LEFT and green on the RIGHT of another aircraft at your altitude. Which way is it going?',
+      back: 'Toward you — you’re seeing its right (green) wingtip on your right, left (red) on your left, head-on geometry. Red-right-returning… if green is on the LEFT it’s moving away.',
+      why: 'Position lights: red left wingtip, green right wingtip, white tail. Seeing both colors = looking at its nose.',
+      cite: 'PHAK; 14 CFR 91.209',
+    },
+    {
+      slug: 'night-preflight',
+      front: 'What changes about the **preflight** for a night flight?',
+      back: 'Test every light (position, anticollision, landing, panel), carry two flashlights (one red), check electrical health harder — and preflight the personal side: fatigue and dark adaptation.',
+      cite: 'AFH Ch. 10',
+    },
+    {
+      slug: 'night-airport-find',
+      front: 'Finding the airport at night — what do you look for?',
+      back: 'The rotating beacon (white/green), then the runway light pattern; REILs pick the threshold out of city clutter. Keep the beacon in sight — airports vanish into ground lighting shockingly well.',
+      cite: 'AIM 2-1-9; AFH Ch. 10',
+    },
+    // ---- emergencies ----
+    {
+      slug: 'emerg-electrical-fire',
+      front: '**Electrical fire in flight** — the memory items?',
+      back: 'Master OFF, avionics off, vents/heat closed (starve smoke), extinguisher if flames, then land as soon as possible; restore essentials only if needed and the fire is out.',
+      why: 'The acrid smell comes first. Master off kills most electrical fires at the source. Follow YOUR POH.',
+      cite: 'POH Section 3; AFH Ch. 17',
+    },
+    {
+      slug: 'emerg-engine-fire',
+      front: '**Engine fire in flight** — the general flow?',
+      back: 'Fuel selector/mixture OFF (starve it), cabin heat off (it ducts from the engine bay), establish a descent — many POHs call for higher speed to blow out flames — and land immediately, off-airport if needed.',
+      why: 'You are not restarting this engine. The airplane is now a glider with a schedule.',
+      cite: 'POH Section 3; AFH Ch. 17',
+    },
+    {
+      slug: 'emerg-alternator',
+      front: 'Alternator failure at night — what’s the resource you’re now budgeting?',
+      back: 'Battery minutes. Shed load ruthlessly (one radio, minimum lights), consider flaps early (electric flaps die too), and land before the panel goes dark.',
+      cite: 'POH Section 3',
+    },
+    {
+      slug: 'emerg-door-open',
+      front: 'A door pops open right after rotation. What kills pilots in this scenario?',
+      back: 'The distraction, not the door. The airplane flies fine — climb, pattern, land, close it on the ground. Never troubleshoot a door at 300 ft.',
+      cite: 'AFH; NTSB accident data',
+      unverified: true,
+    },
+    {
+      slug: 'emerg-elt',
+      front: 'When does the **ELT** activate, and how do you check it after a hard landing?',
+      back: 'A g-switch triggers on impact. Monitor 121.5 after landing/shutdown to hear if it’s wailing; deactivate false alarms and report them.',
+      cite: 'AIM 6-2-4; 14 CFR 91.207',
+    },
+    {
+      slug: 'emerg-svfr-trap',
+      front: 'Weather closes in VFR-into-IMC. First three actions?',
+      back: 'Believe the instruments immediately, level the wings, then a gentle 180 back to visual conditions (or climb per terrain) — and confess to ATC for vectors. The killer is continuing.',
+      cite: 'AFH Ch. 17; AIM 6-1-1',
+    },
+    {
+      slug: 'securing-after',
+      front: 'After any off-airport or emergency landing, first priorities once stopped?',
+      back: 'Fuel and master OFF, evacuate upwind, account for everyone, then 911/FSS. The airplane is replaceable.',
+      cite: 'POH Section 3; AFH Ch. 17',
+    },
   ],
 );

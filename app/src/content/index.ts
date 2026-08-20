@@ -10,6 +10,8 @@ import { performanceDeck } from './decks/performance';
 import { wbDeck } from './decks/wb';
 import { aeromedDeck } from './decks/aeromed';
 import { proceduresDeck } from './decks/procedures';
+import { navDeck } from './decks/nav';
+import { airportDeck } from './decks/airport';
 
 export const SUBJECTS: Subject[] = [
   {
@@ -56,6 +58,12 @@ export const SUBJECTS: Subject[] = [
     title: 'Sectional Charts',
     icon: '🗺️',
     blurb: 'Symbols, airspace boundaries, MEF, navaids, special use.',
+  },
+  {
+    id: 'nav',
+    title: 'Navigation',
+    icon: '🧭',
+    blurb: 'Pilotage, dead reckoning, VOR, wind triangle, fuel planning.',
   },
   {
     id: 'regs',
@@ -122,6 +130,8 @@ export const DECKS: Deck[] = [
   wbDeck,
   aeromedDeck,
   proceduresDeck,
+  navDeck,
+  airportDeck,
 ];
 
 export function decksFor(subject: SubjectId): Deck[] {

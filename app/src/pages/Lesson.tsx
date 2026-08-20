@@ -40,6 +40,7 @@ export function LessonPage(props: { route: Route }): JSX.Element {
       title={`${unit.spec.title} · ${step.label}`}
       build={build}
       exitTo={`unit/${unit.spec.id}`}
+      mode="lesson"
     />
   );
 }

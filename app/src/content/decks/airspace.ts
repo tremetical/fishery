@@ -289,6 +289,32 @@ export const airspaceDeck = deck(
       cite: 'AIM 3-5-7',
     },
     {
+      slug: 'svfr-airspace',
+      front: 'The field is reporting 900 overcast and 2 SM inside the Class D. Can you get in VFR?',
+      back: 'Not on basic VFR — but you can request **Special VFR**: ATC clearance, 1 SM, clear of clouds, day only (night SVFR needs an instrument rating and IFR aircraft).',
+      why: 'Magic words: “request Special VFR.” ATC cannot offer it unprompted.',
+      cite: '14 CFR 91.157',
+    },
+    {
+      slug: 'g-pattern-rule',
+      front: 'Traffic pattern rules exist even in Class G — what does 91.126 require?',
+      back: 'At a non-towered airport in G: make all turns to the left (unless right traffic is indicated), and helicopters avoid the fixed-wing flow.',
+      cite: '14 CFR 91.126',
+    },
+    {
+      slug: 'e-to-surface-wx',
+      front: 'Why does it matter whether the surface area around an airport is Class E vs G when the weather is marginal?',
+      back: 'Surface E demands basic VFR (3 SM / 500-1000-2000 within it, ceiling ≥1,000 to operate beneath) or an SVFR clearance; in G you could scud along at 1 SM clear of clouds — legally, anyway.',
+      cite: '14 CFR 91.155(c),(d), 91.157',
+    },
+    {
+      slug: 'transponder-fail',
+      front: 'Your transponder/ADS-B dies mid-flight inside the Mode C veil. Options?',
+      back: 'ATC can authorize continued flight to your destination/repair station on request — and for planned flights with inop equipment, a request 1 hour ahead can authorize deviation.',
+      cite: '14 CFR 91.215(d), 91.225(g)',
+      unverified: true,
+    },
+    {
       slug: 'below-b-shelf',
       front: 'You’re under a Class B shelf, outside it, squawking 1200. Legal? What applies?',
       back: 'Legal — no clearance needed below the shelf. You still need Mode C + ADS-B inside the 30 NM veil, 200 kt limit, and the Class E/G minimums for your altitude.',

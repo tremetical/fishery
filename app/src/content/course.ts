@@ -126,6 +126,14 @@ export const COURSE: UnitSpec[] = [
     checkpoint: { areas: ['charts'], examCount: 5, cardCount: 3 },
   },
   {
+    id: 'nav',
+    title: 'Navigation',
+    icon: '🧭',
+    tagline: 'Getting there on purpose, with fuel left.',
+    decks: [{ deckId: 'nav', lessonSize: 8 }],
+    checkpoint: { areas: ['nav'], examCount: 5, cardCount: 3 },
+  },
+  {
     id: 'aero',
     title: 'Aerodynamics',
     icon: '🌀',
@@ -187,7 +195,10 @@ export const COURSE: UnitSpec[] = [
     title: 'Flight operations',
     icon: '🛫',
     tagline: 'Patterns, runways, wake, and when the engine gets quiet.',
-    decks: [{ deckId: 'procedures', lessonSize: 8 }],
+    decks: [
+      { deckId: 'airport', lessonSize: 8 },
+      { deckId: 'procedures', lessonSize: 9 },
+    ],
     checkpoint: { areas: ['procedures'], examCount: 5, cardCount: 3 },
   },
   {

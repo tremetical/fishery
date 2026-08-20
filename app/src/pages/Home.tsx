@@ -2,6 +2,7 @@ import type { JSX } from 'preact';
 import { navigate } from '../lib/router';
 import { DECKS } from '../content';
 import { store, useStore } from '../lib/store';
+import { storageMode } from '../lib/db';
 import {
   buildUnits,
   continueTarget,
@@ -29,6 +30,13 @@ export function HomePage(): JSX.Element {
 
   return (
     <div class="stack">
+      {storageMode() === 'memory' && (
+        <div class="panel small" style="border-color: var(--warning); color: var(--warning)">
+          ⚠️ <b>Progress will NOT be saved here.</b> This browser context
+          refused persistent storage (preview pages do this). Use the
+          installed app or a normal browser tab for real studying.
+        </div>
+      )}
       <h1 class="page-h">
         {greeting}, pilot.
         <span class="sub">

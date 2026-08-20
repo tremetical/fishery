@@ -3,6 +3,7 @@ export type SubjectId =
   | 'airspace'
   | 'weather'
   | 'charts'
+  | 'nav'
   | 'regs'
   | 'aero'
   | 'systems'

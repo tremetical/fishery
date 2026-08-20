@@ -12,6 +12,17 @@ import {
   wbQuestions,
   aeromedQuestions,
 } from './bank3';
+import {
+  navQuestions,
+  regs2Questions,
+  performance2Questions,
+  airspace2Questions,
+  weather2Questions,
+  systems2Questions,
+  procedures2Questions,
+  wb2Questions,
+  aeromed2Questions,
+} from './bank4';
 
 export type { ExamQuestion } from './types';
 
@@ -27,6 +38,15 @@ export const QUESTIONS: ExamQuestion[] = [
   ...performanceQuestions,
   ...wbQuestions,
   ...aeromedQuestions,
+  ...navQuestions,
+  ...regs2Questions,
+  ...performance2Questions,
+  ...airspace2Questions,
+  ...weather2Questions,
+  ...systems2Questions,
+  ...procedures2Questions,
+  ...wb2Questions,
+  ...aeromed2Questions,
 ];
 
 export function questionById(id: string): ExamQuestion | undefined {

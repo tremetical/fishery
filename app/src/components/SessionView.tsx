@@ -19,6 +19,13 @@ export function SessionView(props: {
   title: string;
   build: () => SessionItem[];
   exitTo: string;
+  /**
+   * 'srs' (default): learning cards requeue until their steps graduate —
+   * correct for review sessions. 'lesson': each card appears once and only
+   * misses (Again) repeat; the step timers come back via normal reviews.
+   * Without this, a 12-card lesson demands 24+ answers and feels endless.
+   */
+  mode?: 'srs' | 'lesson';
 }): JSX.Element {
   const initial = useMemo(props.build, []);
   const [queue, setQueue] = useState<SessionItem[]>(initial);
@@ -82,10 +89,12 @@ export function SessionView(props: {
     setAnswered((a) => a + 1);
     setQueue((q) => {
       const rest = q.slice(1);
-      const stillLearning =
-        (next.phase === 'learning' || next.phase === 'relearning') &&
-        next.due <= Date.now() + REQUEUE_HORIZON;
-      return stillLearning ? [...rest, q[0]] : rest;
+      const learning = next.phase === 'learning' || next.phase === 'relearning';
+      const requeue =
+        props.mode === 'lesson'
+          ? g === 0 // lessons: only misses repeat
+          : learning && next.due <= Date.now() + REQUEUE_HORIZON;
+      return requeue ? [...rest, q[0]] : rest;
     });
     // revealed flips off in the same commit as the card swap — the no-leak
     // rule in Flashcard.tsx depends on this ordering never being animated.
