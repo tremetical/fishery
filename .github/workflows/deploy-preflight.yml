@@ -5,7 +5,9 @@ name: Deploy Preflight
 
 on:
   push:
-    branches: [main]
+    # Deploys from main OR from the working branch, so the app can be
+    # installed on a phone without merging first.
+    branches: [main, 'claude/**']
     paths: ['app/**', '.github/workflows/deploy-preflight.yml']
   workflow_dispatch:
 

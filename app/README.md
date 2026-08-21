@@ -78,10 +78,17 @@ npm run build      # typecheck + production build (dist/)
 
 ## Deploy
 
-Merging to `main` triggers `.github/workflows/deploy-preflight.yml`, which
-builds and publishes to GitHub Pages. One-time setup: **repo Settings →
-Pages → Source: GitHub Actions**. Then install it from the browser
-(Share → Add to Home Screen on iOS, Install App on Android).
+One-time setup: **repo Settings → Pages → Source: GitHub Actions**. After
+that, any push to `main` *or* to a `claude/**` working branch runs
+`.github/workflows/deploy-preflight.yml`, which tests, builds with
+`BASE=/<repo>/`, and publishes to GitHub Pages — so the app can be
+installed on a phone without merging first.
+
+**iPhone install:** open the Pages URL in **Safari** (not Chrome — only
+Safari can install to the home screen on iOS), tap Share → *Add to Home
+Screen*. Installed web apps get an exempt, longer-lived storage bucket
+than a plain Safari tab, so always study from the installed icon, and
+export a backup from Settings now and then.
 
 ## Content authoring
 
