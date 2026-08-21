@@ -42,6 +42,16 @@ export const SIM_PASS = 0.7;
 
 export const COURSE: UnitSpec[] = [
   {
+    id: 'basics',
+    title: 'Start here',
+    icon: '🌱',
+    tagline: 'The vocabulary everything else is built on — assumes nothing.',
+    decks: [{ deckId: 'basics', lessonSize: 7 }],
+    // No exam-bank area exists for fundamentals, and that is fine: the
+    // checkpoint is built entirely from this unit's own cards.
+    checkpoint: { areas: [], examCount: 0, cardCount: 12 },
+  },
+  {
     id: 'radio-1',
     title: 'Phonetic alphabet',
     icon: '🔤',

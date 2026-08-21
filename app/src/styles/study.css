@@ -367,3 +367,18 @@ rect.as-sel {
   border-top: 1px solid var(--line);
 }
 .sheet-input input { flex: 1; }
+
+.handoff-preview {
+  max-height: 30dvh;
+  overflow-y: auto;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  user-select: text;
+  -webkit-user-select: text;
+}

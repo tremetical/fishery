@@ -1,4 +1,5 @@
 import type { Deck, Subject, SubjectId } from './types';
+import { basicsDeck } from './decks/basics';
 import { phoneticDeck, phraseologyDeck } from './decks/radio';
 import { airspaceDeck } from './decks/airspace';
 import { metarDeck, wxTheoryDeck } from './decks/weather';
@@ -15,6 +16,13 @@ import { airportDeck } from './decks/airport';
 import { oralDocsDeck, oralXcDeck, maneuversDeck } from './decks/checkride';
 
 export const SUBJECTS: Subject[] = [
+  {
+    id: 'basics',
+    title: 'Start Here',
+    icon: '🌱',
+    blurb:
+      'The words and ideas every other subject assumes you already know. Begin here.',
+  },
   {
     id: 'radio',
     title: 'Radio & Comms',
@@ -124,6 +132,7 @@ export const SUBJECTS: Subject[] = [
 ];
 
 export const DECKS: Deck[] = [
+  basicsDeck,
   phoneticDeck,
   phraseologyDeck,
   airspaceDeck,

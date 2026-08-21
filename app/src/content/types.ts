@@ -1,4 +1,5 @@
 export type SubjectId =
+  | 'basics'
   | 'radio'
   | 'airspace'
   | 'weather'

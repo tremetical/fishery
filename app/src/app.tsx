@@ -22,6 +22,7 @@ import { RadioPage } from './pages/Radio';
 import { ExamPage } from './pages/Exam';
 import { ProgressPage } from './pages/Progress';
 import { SettingsPage } from './pages/Settings';
+import { WatchPage } from './pages/Watch';
 
 const NAV = [
   { path: '', label: 'Today', icon: IconPlane },
@@ -118,6 +119,11 @@ export function App(): JSX.Element {
       showNav = false;
       break;
     }
+    case 'watch':
+      page = <WatchPage />;
+      title = 'WATCH';
+      backTo = '';
+      break;
     case 'settings':
       page = <SettingsPage />;
       title = 'SETTINGS';

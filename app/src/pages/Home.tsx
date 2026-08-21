@@ -108,6 +108,18 @@ export function HomePage(): JSX.Element {
         </button>
       )}
 
+      <button class="tile" onClick={() => navigate('watch')}>
+        <div class="tile-icon" style="background: var(--accent-soft)">
+          <span class="emoji">▶️</span>
+        </div>
+        <div class="tile-body">
+          <div class="tile-title">Video ground school</div>
+          <div class="tile-sub">
+            Free full courses — watch a topic before drilling it
+          </div>
+        </div>
+      </button>
+
       <button class="tile" onClick={() => navigate('settings')}>
         <div class="tile-icon" style="background: var(--info-soft)">
           <span class="emoji">⚙️</span>

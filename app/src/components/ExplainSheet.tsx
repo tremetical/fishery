@@ -29,6 +29,31 @@ export function ExplainButton(props: { context: ExplainContext }): JSX.Element {
   );
 }
 
+/** Clipboard API where available, legacy execCommand where it is not. */
+async function copyText(text: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    /* fall through */
+  }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    const okCopy = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return okCopy;
+  } catch {
+    return false;
+  }
+}
+
 const STARTERS = [
   'Break this down piece by piece',
   'Give me a concrete example',
@@ -137,32 +162,35 @@ function Sheet(props: { context: ExplainContext; onClose: () => void }): JSX.Ele
           </>
         ) : (
           <div class="stack" style="padding: 14px">
+            {/*
+              Copy first, open second. The ?q= prefill is undocumented and
+              does not survive the jump into the Claude iOS app, so relying
+              on it left people staring at an empty prompt box. Two explicit
+              taps always work, and the copy happens on its own tap so no
+              navigation can cancel it.
+            */}
+            <div class="handoff-preview" aria-label="Question to send">
+              {handoffText(props.context)}
+            </div>
+            <button
+              class={`btn btn-block btn-big ${copied ? 'btn-quiet' : 'btn-primary'}`}
+              onClick={() => void copyText(handoffText(props.context)).then(setCopied)}
+            >
+              {copied ? '✓ Copied' : '1 · Copy this question'}
+            </button>
             <a
-              class="btn btn-primary btn-block btn-big"
+              class={`btn btn-block btn-big ${copied ? 'btn-primary' : ''}`}
               href={claudeWebUrl(props.context, project)}
               target="_blank"
               rel="noopener"
-              onClick={() => {
-                // Prefill via ?q= is undocumented and not reliable on
-                // Project links, so the prompt also goes to the clipboard.
-                void navigator.clipboard
-                  ?.writeText(handoffText(props.context))
-                  .then(() => setCopied(true))
-                  .catch(() => {});
-              }}
             >
-              Ask Claude about this
+              2 · Open Claude, then paste
             </a>
             <p class="small dim">
               {project
-                ? 'Opens your pinned Claude project, so every question you ask lands in the same conversation history.'
-                : 'Opens Claude (the app, if you have it) with this card and your weak spots included — uses your own Claude account.'}
+                ? 'Opens your pinned project, so everything you ask stays in one conversation.'
+                : 'Opens Claude on your own account — the question includes this card plus what you keep getting wrong.'}
             </p>
-            {copied && (
-              <p class="tiny" style="color: var(--info)">
-                Prompt copied — if Claude opens with an empty box, just paste.
-              </p>
-            )}
             <button
               class="btn btn-quiet btn-block"
               onClick={() => {
