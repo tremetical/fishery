@@ -36,3 +36,6 @@ desktop.ini
 /build/
 /dist/
 *.log
+
+# Node (root-level tool caches; app deps ignored in app/.gitignore)
+node_modules/
