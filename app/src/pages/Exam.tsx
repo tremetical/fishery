@@ -9,6 +9,7 @@ import { idb } from '../lib/db';
 import { confetti } from '../lib/confetti';
 import { Rich } from '../components/rich';
 import { Figure } from '../components/figures';
+import { ExplainButton } from '../components/ExplainSheet';
 
 const SIM_COUNT = 60;
 const SIM_SECONDS = 2.5 * 3600;
@@ -273,6 +274,14 @@ function QuestionCard(props: {
               {q.unverified && <span class="badge badge-leech">UNVERIFIED</span>}
             </div>
           )}
+          <div style="margin-top: 12px">
+            <ExplainButton
+              context={{
+                label: 'Exam question',
+                body: `Question: ${q.q}\nCorrect answer: ${q.choices[q.answer]}\nExplanation: ${q.why}${q.cite ? `\nSource: ${q.cite}` : ''}`,
+              }}
+            />
+          </div>
         </div>
       )}
     </div>

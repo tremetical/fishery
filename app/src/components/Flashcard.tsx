@@ -4,6 +4,7 @@ import { Rich } from './rich';
 import { IconSpeaker } from './icons';
 import { speak, canSpeak } from '../lib/speech';
 import { store } from '../lib/store';
+import { ExplainButton } from './ExplainSheet';
 
 /*
  * ARCHITECTURAL RULE — answer must never leak before reveal.
@@ -65,6 +66,14 @@ export function Flashcard(props: {
               )}
             </div>
           )}
+          <div style="margin-top: 12px">
+            <ExplainButton
+              context={{
+                label: 'Flashcard',
+                body: `Q: ${card.front}\nA: ${card.back}${card.why ? `\nNote: ${card.why}` : ''}${card.cite ? `\nSource: ${card.cite}` : ''}`,
+              }}
+            />
+          </div>
         </div>
       )}
     </div>

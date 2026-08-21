@@ -8,6 +8,7 @@ import { store } from '../lib/store';
 import { confetti } from '../lib/confetti';
 import { Rich } from '../components/rich';
 import { Figure } from '../components/figures';
+import { ExplainButton } from '../components/ExplainSheet';
 
 /**
  * Checkpoint mini-test: Duolingo-style — immediate feedback per question,
@@ -152,6 +153,14 @@ export function CheckpointPage(props: { route: Route }): JSX.Element {
                   <span class="mono">{item.cite}</span>
                 </div>
               )}
+              <div style="margin-top: 12px">
+                <ExplainButton
+                  context={{
+                    label: 'Checkpoint question',
+                    body: `Question: ${item.q}\nCorrect answer: ${item.choices[item.answer]}${item.why ? `\nExplanation: ${item.why}` : ''}`,
+                  }}
+                />
+              </div>
             </div>
           )}
         </div>

@@ -278,3 +278,92 @@ rect.as-sel {
   gap: 8px;
   text-align: center;
 }
+
+/* ---------- AI tutor sheet ---------- */
+
+.explain-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--info);
+  color: var(--info);
+  background: var(--info-soft);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.explain-btn:active { filter: brightness(1.2); }
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.55);
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+}
+
+.sheet {
+  background: var(--surface);
+  border-top: 1px solid var(--line-strong);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  max-height: 86dvh;
+  display: flex;
+  flex-direction: column;
+  animation: sheet-up 200ms ease-out;
+}
+@keyframes sheet-up {
+  from { transform: translateY(40px); opacity: 0.6; }
+  to { transform: none; opacity: 1; }
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sheet-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  min-height: 180px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bubble {
+  max-width: 88%;
+  padding: 10px 13px;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  overflow-wrap: break-word;
+}
+.bubble-user {
+  margin-left: auto;
+  background: var(--info-soft);
+  border: 1px solid var(--info);
+  border-bottom-right-radius: 4px;
+}
+.bubble-assistant {
+  margin-right: auto;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-bottom-left-radius: 4px;
+}
+
+.sheet-input {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+}
+.sheet-input input { flex: 1; }

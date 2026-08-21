@@ -1,9 +1,17 @@
 import type { JSX } from 'preact';
-import { useRef, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { getTheme, setTheme, THEMES, type Theme } from '../lib/theme';
 import { store, useStore } from '../lib/store';
 import { exportBackup, importBackup } from '../lib/backup';
 import { storageMode } from '../lib/db';
+import {
+  AI_MODELS,
+  getAiKey,
+  getAiModel,
+  setAiKey,
+  setAiModel,
+  type AiModelId,
+} from '../lib/ai';
 
 export function SettingsPage(): JSX.Element {
   useStore();
@@ -141,6 +149,8 @@ export function SettingsPage(): JSX.Element {
         {msg && <p class="small mt">{msg}</p>}
       </section>
 
+      <AiTutorSection />
+
       <section class="panel">
         <div class="panel-title">About</div>
         <p class="small dim">
@@ -157,6 +167,110 @@ export function SettingsPage(): JSX.Element {
         </p>
       </section>
     </div>
+  );
+}
+
+function AiTutorSection(): JSX.Element {
+  const [saved, setSaved] = useState<boolean | null>(null);
+  const [draft, setDraft] = useState('');
+  const [model, setModelState] = useState<AiModelId>('claude-opus-5');
+  const [note, setNote] = useState<string | null>(null);
+
+  useEffect(() => {
+    void getAiKey().then((k) => setSaved(!!k));
+    void getAiModel().then(setModelState);
+  }, []);
+
+  const save = async () => {
+    const key = draft.trim();
+    if (!key) return;
+    await setAiKey(key);
+    setDraft('');
+    setSaved(true);
+    setNote('Key saved on this device.');
+  };
+
+  const clear = async () => {
+    await setAiKey(null);
+    setSaved(false);
+    setNote('Key removed.');
+  };
+
+  return (
+    <section class="panel">
+      <div class="panel-title">AI tutor</div>
+      <p class="small dim">
+        The ✨ Explain button works two ways. With no setup it opens Claude
+        (free account) with the material prefilled. Add an Anthropic API key
+        here and you get a chat tutor right inside the app instead.
+      </p>
+      {saved ? (
+        <div class="rowline mt" style="min-height: var(--tap)">
+          <div>
+            <div>API key</div>
+            <div class="tiny dim mono">sk-ant-…&nbsp;· saved</div>
+          </div>
+          <button class="btn" onClick={() => void clear()}>
+            Remove
+          </button>
+        </div>
+      ) : (
+        <div class="mt" style="display:flex; gap:8px">
+          <input
+            type="password"
+            placeholder="sk-ant-…"
+            autocomplete="off"
+            style="flex:1"
+            value={draft}
+            onInput={(e) => setDraft((e.target as HTMLInputElement).value)}
+          />
+          <button
+            class="btn btn-primary"
+            disabled={!draft.trim()}
+            onClick={() => void save()}
+          >
+            Save
+          </button>
+        </div>
+      )}
+      {saved && (
+        <>
+          <hr class="hr" />
+          <div class="stack">
+            <div class="tiny dim" style="text-transform: uppercase; letter-spacing: 0.05em">
+              Model
+            </div>
+            {AI_MODELS.map((m) => (
+              <button
+                key={m.id}
+                class="tile"
+                style={
+                  (model === m.id ? 'border-color: var(--accent);' : '') +
+                  'min-height: 52px'
+                }
+                onClick={() => {
+                  setModelState(m.id);
+                  void setAiModel(m.id);
+                }}
+              >
+                <div class="tile-body">
+                  <div class="tile-title">{m.label}</div>
+                  <div class="tile-sub">{m.hint}</div>
+                </div>
+                {model === m.id && <span class="badge badge-due">ON</span>}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+      {note && <p class="small mt">{note}</p>}
+      <p class="tiny faint mt">
+        Get a key at console.anthropic.com (usage is pay-as-you-go, billed by
+        Anthropic). The key is stored only on this device and is never
+        included in backups. Card text and your questions are sent to
+        Anthropic only when you ask the tutor something.
+      </p>
+    </section>
   );
 }
 

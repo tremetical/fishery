@@ -9,12 +9,15 @@ export function StudyPage(props: { route: Route }): JSX.Element {
   useStore();
   const { parts } = props.route;
 
-  // #/session/... — full-screen study sessions
+  // #/session/... — full-screen study sessions. Keyed by the full path so
+  // hopping between two sessions (e.g. via browser history) mounts a fresh
+  // view instead of reusing reveal state — the no-leak rule again.
   if (parts[0] === 'session') {
     const scope = parts[1];
     if (scope === 'all') {
       return (
         <SessionView
+          key={props.route.path}
           title="All subjects"
           build={() => buildSession(DECKS)}
           exitTo=""
@@ -26,6 +29,7 @@ export function StudyPage(props: { route: Route }): JSX.Element {
       if (subject)
         return (
           <SessionView
+            key={props.route.path}
             title={subject.title}
             build={() => buildSession(decksFor(subject.id))}
             exitTo={`study/${subject.id}`}
@@ -37,6 +41,7 @@ export function StudyPage(props: { route: Route }): JSX.Element {
       if (deck)
         return (
           <SessionView
+            key={props.route.path}
             title={deck.title}
             build={() => buildSession([deck])}
             exitTo={`study/${deck.subject}`}
