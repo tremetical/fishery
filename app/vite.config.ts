@@ -11,6 +11,13 @@ const base = artifact ? './' : (process.env.BASE ?? '/');
 
 export default defineConfig({
   base,
+  // Shown in Settings → About so anyone can tell which build a device is
+  // actually running (the installed PWA can lag behind deploys).
+  define: {
+    __BUILD_STAMP__: JSON.stringify(
+      new Date().toISOString().slice(0, 16).replace('T', ' ') + 'Z',
+    ),
+  },
   build: artifact
     ? { outDir: 'dist-artifact', assetsInlineLimit: 100_000_000 }
     : undefined,

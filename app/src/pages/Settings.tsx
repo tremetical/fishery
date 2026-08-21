@@ -165,6 +165,11 @@ export function SettingsPage(): JSX.Element {
           the author could not fully confirm — treat those with extra
           suspicion.
         </p>
+        <p class="tiny faint mt mono">
+          Build {typeof __BUILD_STAMP__ === 'string' ? __BUILD_STAMP__ : 'dev'}
+          {' '}· updates arrive automatically shortly after the app is fully
+          closed and reopened.
+        </p>
       </section>
     </div>
   );
