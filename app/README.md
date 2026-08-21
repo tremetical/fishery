@@ -22,7 +22,7 @@ airplane mode.
 - **Spaced repetition** — an Anki-style SM-2 scheduler (learning steps, ease
   factor, lapse handling, ±5% fuzz) with **leech detection**: cards that
   keep failing get flagged as trouble spots and surfaced separately.
-  ~290 cards across 13 decks, every one with an explanation and citation.
+  500+ cards across 18 decks, every one with an explanation and citation.
 - **Radio trainer** — generated tail numbers, Puget Sound / Alaska airport
   idents, and full radio-call scenarios (taxi, hold short, takeoff, landing,
   call-ups, CTAF). Speech synthesis reads the controller's call; speech
@@ -33,9 +33,14 @@ airplane mode.
   call the flight category, then decode the whole thing.
 - **W&B worksheet** — generated loading problems where every step of *your*
   arithmetic is checked: moments, totals, CG, and the go/no-go call.
-- **Written exam** — a 98-question bank (3-choice, FAA style) with practice
-  mode (instant feedback + citation) and a timed 60-question / 2:30
-  simulation that survives an app kill mid-exam.
+- **Written exam** — a 167-question bank (3-choice, FAA style) including
+  figure-based questions with app-drawn training figures (chart excerpt,
+  performance table, CG envelope, ASI, VOR), practice mode (instant
+  feedback + citation), and a timed 60-question / 2:30 simulation that
+  survives an app kill mid-exam.
+- **Checkride prep** — oral-exam decks framed as examiner questions
+  (answered out loud) and an ACS maneuvers-standards deck, unlocking on
+  the path after a passing written sim.
 - **Progress** — streak, 30-day recall rate, per-deck mastery, review
   history, trouble spots, sim score history.
 - **Three themes** — dark (default), day, and a red-on-black **night mode**

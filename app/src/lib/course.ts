@@ -154,6 +154,7 @@ export interface CheckItem {
   answer: number;
   why?: string;
   cite?: string;
+  figure?: string;
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -184,6 +185,7 @@ export function buildCheckpointItems(unit: Unit): CheckItem[] {
       answer: perm.indexOf(q.answer),
       why: q.why,
       cite: q.cite,
+      figure: q.figure,
     });
   }
 

@@ -11,6 +11,8 @@ export interface ExamQuestion {
   why: string;
   cite?: string;
   unverified?: boolean;
+  /** id of a training figure (see components/figures.tsx) shown with the question */
+  figure?: string;
 }
 
 export function qbank(

@@ -10,7 +10,8 @@ export type SubjectId =
   | 'performance'
   | 'wb'
   | 'aeromed'
-  | 'procedures';
+  | 'procedures'
+  | 'checkride';
 
 export interface Card {
   /** Stable id, `${deckId}:${slug}` — review history is keyed on this, so
@@ -29,6 +30,8 @@ export interface Card {
   unverified?: boolean;
   /** Radio decks: text to speak aloud via TTS (may differ from `back`). */
   speak?: string;
+  /** Oral-prep cards: prompt the user to answer out loud before revealing. */
+  sayAloud?: boolean;
 }
 
 export interface Deck {

@@ -209,4 +209,26 @@ export const COURSE: UnitSpec[] = [
     decks: [],
     finalSim: true,
   },
+  // ---- post-written: checkride preparation ----
+  {
+    id: 'maneuvers',
+    title: 'Maneuvers & standards',
+    icon: '🛞',
+    tagline: 'The ACS numbers, automatic before the flight.',
+    decks: [{ deckId: 'maneuvers', lessonSize: 7 }],
+    checkpoint: { areas: [], examCount: 0, cardCount: 8 },
+  },
+  {
+    id: 'oral',
+    title: 'The oral exam',
+    icon: '🎓',
+    tagline: 'Two hours of examiner questions — answered out loud.',
+    decks: [
+      { deckId: 'oral-docs', lessonSize: 6 },
+      { deckId: 'oral-xc', lessonSize: 6 },
+    ],
+    // Oral answers are long-form, so this checkpoint draws entirely from
+    // scenario questions in the areas the oral actually probes.
+    checkpoint: { areas: ['regs', 'procedures', 'aeromed'], examCount: 8, cardCount: 0 },
+  },
 ];

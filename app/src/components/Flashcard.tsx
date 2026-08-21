@@ -23,7 +23,7 @@ export function Flashcard(props: {
 }): JSX.Element {
   const { card, revealed, onReveal } = props;
 
-  const sayIt = card.speak !== undefined;
+  const sayIt = card.speak !== undefined || card.sayAloud === true;
 
   return (
     <div class={`flashcard ${revealed ? 'is-revealed' : ''}`}>

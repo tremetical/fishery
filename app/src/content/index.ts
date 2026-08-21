@@ -12,6 +12,7 @@ import { aeromedDeck } from './decks/aeromed';
 import { proceduresDeck } from './decks/procedures';
 import { navDeck } from './decks/nav';
 import { airportDeck } from './decks/airport';
+import { oralDocsDeck, oralXcDeck, maneuversDeck } from './decks/checkride';
 
 export const SUBJECTS: Subject[] = [
   {
@@ -114,6 +115,12 @@ export const SUBJECTS: Subject[] = [
     icon: '🛫',
     blurb: 'Pattern work, right-of-way, wake turbulence, emergencies.',
   },
+  {
+    id: 'checkride',
+    title: 'Checkride Prep',
+    icon: '🎓',
+    blurb: 'Oral exam scenarios out loud, plus every maneuver’s ACS standards.',
+  },
 ];
 
 export const DECKS: Deck[] = [
@@ -132,6 +139,9 @@ export const DECKS: Deck[] = [
   proceduresDeck,
   navDeck,
   airportDeck,
+  oralDocsDeck,
+  oralXcDeck,
+  maneuversDeck,
 ];
 
 export function decksFor(subject: SubjectId): Deck[] {

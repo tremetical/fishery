@@ -5,7 +5,9 @@ import { navigate } from '../lib/router';
 import { buildUnits, buildCheckpointItems, type CheckItem } from '../lib/course';
 import { CHECKPOINT_PASS } from '../content/course';
 import { store } from '../lib/store';
+import { confetti } from '../lib/confetti';
 import { Rich } from '../components/rich';
+import { Figure } from '../components/figures';
 
 /**
  * Checkpoint mini-test: Duolingo-style — immediate feedback per question,
@@ -32,6 +34,7 @@ export function CheckpointPage(props: { route: Route }): JSX.Element {
 
   const finish = async () => {
     setFinished(true);
+    if (correct / items.length >= CHECKPOINT_PASS) confetti();
     if (!saved) {
       setSaved(true);
       await store.addExamResult({
@@ -109,6 +112,7 @@ export function CheckpointPage(props: { route: Route }): JSX.Element {
           <div style="font-size: 17px; font-weight: 700; line-height: 1.4">
             <Rich text={item.q} />
           </div>
+          {item.figure && <Figure id={item.figure} />}
           <div class="stack mt">
             {item.choices.map((c, i) => {
               let style = '';

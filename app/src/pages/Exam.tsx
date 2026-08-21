@@ -6,7 +6,9 @@ import { QUESTIONS, questionById, type ExamQuestion } from '../content/exam';
 import { SUBJECTS, subjectById } from '../content';
 import { store, useStore, type ExamResult } from '../lib/store';
 import { idb } from '../lib/db';
+import { confetti } from '../lib/confetti';
 import { Rich } from '../components/rich';
+import { Figure } from '../components/figures';
 
 const SIM_COUNT = 60;
 const SIM_SECONDS = 2.5 * 3600;
@@ -231,6 +233,8 @@ function QuestionCard(props: {
         <Rich text={q.q} />
       </div>
 
+      {q.figure && <Figure id={q.figure} />}
+
       <div class="stack mt">
         {perm.map((orig, displayIdx) => {
           const isPicked = picked === orig;
@@ -338,6 +342,7 @@ function Sim(): JSX.Element {
     };
     await store.addExamResult(r);
     await idb.del('kv', 'simState');
+    if (correct / state.qIds.length >= PASS_PCT / 100) confetti();
     setResult(r);
   };
 

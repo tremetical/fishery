@@ -23,6 +23,13 @@ import {
   wb2Questions,
   aeromed2Questions,
 } from './bank4';
+import {
+  sectionalFigQuestions,
+  perfFigQuestions,
+  wbFigQuestions,
+  asiFigQuestions,
+  vorFigQuestions,
+} from './bank5';
 
 export type { ExamQuestion } from './types';
 
@@ -47,6 +54,11 @@ export const QUESTIONS: ExamQuestion[] = [
   ...procedures2Questions,
   ...wb2Questions,
   ...aeromed2Questions,
+  ...sectionalFigQuestions,
+  ...perfFigQuestions,
+  ...wbFigQuestions,
+  ...asiFigQuestions,
+  ...vorFigQuestions,
 ];
 
 export function questionById(id: string): ExamQuestion | undefined {

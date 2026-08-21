@@ -63,8 +63,9 @@ describe('course structure', () => {
     expect(stepDone(t!.step)).toBe(false);
   });
 
-  it('the course ends with the final sim unit', () => {
-    const last = COURSE[COURSE.length - 1];
-    expect(last.finalSim).toBe(true);
+  it('the course includes a final-sim gate, with checkride prep after it', () => {
+    const simIdx = COURSE.findIndex((u) => u.finalSim);
+    expect(simIdx).toBeGreaterThan(0);
+    expect(simIdx).toBeLessThan(COURSE.length - 1); // units follow the written
   });
 });
