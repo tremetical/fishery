@@ -78,11 +78,16 @@ npm run build      # typecheck + production build (dist/)
 
 ## Deploy
 
-One-time setup: **repo Settings → Pages → Source: GitHub Actions**. After
-that, any push to `main` *or* to a `claude/**` working branch runs
+One-time setup: repo must be **public** (or on a paid plan) and
+**Settings → Pages → Source: GitHub Actions**. Pushes to `main` then run
 `.github/workflows/deploy-preflight.yml`, which tests, builds with
-`BASE=/<repo>/`, and publishes to GitHub Pages — so the app can be
-installed on a phone without merging first.
+`BASE=/<repo>/`, and publishes to GitHub Pages.
+
+Deploys are **main-only** by design: the `github-pages` environment
+rejects deployments from non-default branches, so a feature-branch push
+would queue a run that always fails at `deploy-pages`. Merge to publish.
+
+Live at: https://tremetical.github.io/fishery/
 
 **iPhone install:** open the Pages URL in **Safari** (not Chrome — only
 Safari can install to the home screen on iOS), tap Share → *Add to Home

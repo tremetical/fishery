@@ -5,9 +5,10 @@ name: Deploy Preflight
 
 on:
   push:
-    # Deploys from main OR from the working branch, so the app can be
-    # installed on a phone without merging first.
-    branches: [main, 'claude/**']
+    # main only: the github-pages environment blocks deployments from any
+    # non-default branch, so branch pushes would queue a run that always
+    # fails at deploy-pages. Merge to main to publish.
+    branches: [main]
     paths: ['app/**', '.github/workflows/deploy-preflight.yml']
   workflow_dispatch:
 
