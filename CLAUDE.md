@@ -10,64 +10,41 @@ Existing assets the dev already has built elsewhere: a **Sword Factory-style
 production line** and a **cleaning game**. The factory codebase is the intended
 starting point.
 
-## The concept — "Anime Factory" (settled 19 Aug 2026)
+## The concept — "Anime Factory" (settled 20 Aug 2026)
 
-**Factory → squad → zone → boss wall → better factory.**
+**Factory → sell/display/ascend → zones.** Characters are produced by the existing
+Sword Factory-style line, not rolled from a button.
 
-Characters are **summons that fight beside you**, not menu entries. This is the
-whole point — an earlier design that assigned characters to job "posts" was
-rejected as a spreadsheet with no gameplay.
+**Three things you do with a character** (this is the core, and it is borrowed from
+Fisch's Personal Aquarium, which pays 25%/hr of a fish's value online AND offline):
 
-**In the factory (~2 min at a time):** character models pop off the end of the
-production line and physically land on a platform. Walk over, grab one, read it at
-a glance from its model — big and glowing means a good pull. Throw it in the sell
-chute or drag it into your squad. Hold E on machines to upgrade them; each machine
-has a lever for **fast production vs lucky production**.
+1. **Sell** commons down the chute for scrap.
+2. **Display** rares in your **Hall** — they pay passive income hourly, online and
+   offline, forever. Slots are limited, so a better rare means evicting an older one.
+   The Hall is public: other players walk past it. That is the flex and the art payoff.
+3. **Ascend** a character — pick ONE attribute, pay scrap, roll to push it. Copied
+   deliberately from Sword Factory's Ascender, which the dev singled out as the best
+   mechanic in that game: it gives agency over a thing you already own, and turns
+   "perfect except the rarity" from a heartbreak into a project.
 
-**In the world (~10 min at a time — this is the actual game):** pick three
-characters, walk through a portal into a zone. They spawn beside you and
-auto-attack. Each has **one big ability on a cooldown the player triggers** (keys
-1/2/3). You move, position, dump abilities, kill things, grab drops. A boss at the
-end of the zone **gates the next zone** — that wall is what makes the factory
-matter.
+**Combat:** take 3 characters to zone islands reached from your own island. They
+auto-attack; the player triggers one ultimate each (keys 1/2/3, ~14s base cooldown).
 
 ### Machines (reskinned from Sword Factory)
 
 | Machine | Attribute | Effect |
 |---|---|---|
 | Molder | Archetype | Model/appearance + base worth |
-| Polisher | Condition | Scales stats + production speed |
-| Classifier | Class | Which stat the character leans toward |
 | Appraiser | Rarity | Worth + stats + visual FX |
-| Enchanter | Trait | Multiplicative special effects |
-| Upgrader | Level | Scales with player level |
+| Classifier | Class | Which stat the character leans toward (later) |
+| Enchanter | Trait | Multiplicative special effects (later) |
+
+Two at launch (Molder, Appraiser), four ever. Polisher and Upgrader deleted.
 
 ### Stats — plain language only
 
 **Damage**, **Speed** (attack rate + ability cooldown), **Luck** (drop rates while
 in squad). No RPG jargon — "Charisma/Grit" style naming was explicitly rejected.
-
-### Rarity ladder — TWO CURVES (the original single ladder was broken)
-
-Odds: Common 1:2 · Uncommon 1:8 · Rare 1:40 · Epic 1:250 · Legendary 1:2,000 ·
-Mythic 1:25,000 · Celestial 1:400,000 · Sovereign 1:10,000,000
-
-The original design used the worth multipliers as BOTH sell value and power. Under
-those numbers a pull is worth an expected **1.097x a Common** — the whole eight-tier
-ladder is under 10% of income, a Mythic equals ~75 seconds of production, and a 2x
-Luck pass would move income ~5%. That contradicts "a top pull is an event". Split it:
-
-- **Sell value** `(1/p)^0.65` → **1 / 3.5 / 10 / 32 / 125 / 650 / 3,900 / 32,000**
-  (EV 1.76x; ladder becomes 43% of income; 2x Luck becomes a real +43%)
-- **Combat power** `M^0.4` → **1.0 / 1.15 / 1.35 / 1.75 / 2.4 / 3.6 / 6.1 / 11.0**
-
-A Sovereign is 32,000x at the chute and 11x in a fight. **This cannot be retrofitted**
-once players own Mythics — a nerf is a rating event and rating is distribution.
-
-### Why it fits this dev
-
-Each character costs one idle pose, one attack animation, one ability VFX — so the
-art skill *is* the product, and the roster can grow ~5/week forever.
 
 ## Hard-won constraints (do not relitigate)
 
@@ -130,3 +107,23 @@ load-bearing corrections.
   idle, attack, ultimate VFX, 8 rarity variants) and time it honestly. The 5/week
   cadence claim was never stress-tested and the roster, Index, weekly patch and
   marketing channel all rest on it. >12 hours means everything re-scales to 2/week.
+
+## Rejected directions and why (do not re-pitch)
+
+- **Racer Factory.** Killed by genre data: the biggest Roblox racing game is Midnight
+  Racing Tokyo at ~1.3K CCU, NitroLab Drag Racing has ~104 players, and racing sessions
+  average 5-6 min — the worst bracket measured.
+- **Fish as the factory output.** In fishing games the *verb is catching*; a factory
+  deletes the catching and leaves a conveyor that spits out payouts. Steal the aquarium
+  mechanic, not the fish.
+- **"One Guy"** (single character, everything is fuel) — dev rejected it outright.
+- **Defend the Factory / base defense.** Slot is crowded: Anime RNG Defense, Anime
+  Defense RNG, Defend ur Base with Anime, Anime Battle RNG, plus Plants vs Brainrots
+  averaging ~856K CCU.
+- **Expeditions / assign-to-posts menus.** Not gameplay.
+
+## Session-length benchmarks (target bracket is 30-40 min)
+
+Social hangout 45-60+ · Tycoon 38-45 (idle-inflated) · **Simulator/RPG 30-40** ·
+Fish It ~30 · FISH.OS 18.1 · Build A Ring Farm 15.8 · Build to Defend Loot 10.6 ·
+Racing 5-6 · Deagle Arena 5.7
