@@ -10,6 +10,7 @@ import {
   IconBack,
 } from './components/icons';
 import { HomePage } from './pages/Home';
+import { deckById } from './content';
 import { ToolAirspacePage } from './pages/ToolAirspace';
 import { UnitPage } from './pages/Unit';
 import { LessonPage } from './pages/Lesson';
@@ -52,16 +53,29 @@ export function App(): JSX.Element {
       page = <StudyPage route={route} />;
       title = 'STUDY';
       showNav = top === 'study' && route.parts.length <= 2;
+      if (top === 'study' && route.parts.length === 2) backTo = 'study';
+      if (top === 'session') {
+        // Escape hatch out of any session; progress is saved per answer.
+        const scope = route.parts[1];
+        if (scope === 'subject') backTo = `study/${route.parts[2] ?? ''}`;
+        else if (scope === 'deck')
+          backTo = `study/${deckById(route.parts[2] ?? '')?.subject ?? ''}`;
+        else backTo = '';
+      }
       break;
     case 'radio':
       page = <RadioPage route={route} />;
       title = 'RADIO';
       showNav = route.parts.length <= 1;
+      if (!showNav) backTo = 'radio';
       break;
     case 'exam':
       page = <ExamPage route={route} />;
       title = 'EXAM';
       showNav = route.parts.length <= 1;
+      // The sim keeps its own persisted state, so backing out is safe —
+      // the hub shows "Resume simulation" with the clock still running.
+      if (!showNav) backTo = 'exam';
       break;
     case 'progress':
       page = <ProgressPage />;
@@ -76,23 +90,28 @@ export function App(): JSX.Element {
       page = <LessonPage route={route} />;
       title = 'LESSON';
       showNav = false;
+      backTo = `unit/${route.parts[1] ?? ''}`;
       break;
     case 'checkpoint':
       page = <CheckpointPage route={route} />;
       title = 'CHECKPOINT';
       showNav = false;
+      backTo = `unit/${route.parts[1] ?? ''}`;
       break;
     case 'tools': {
       const tool = route.parts[1];
       if (tool === 'airspace') {
         page = <ToolAirspacePage />;
         title = 'AIRSPACE';
+        backTo = 'study/airspace';
       } else if (tool === 'metar') {
         page = <ToolMetarPage />;
         title = 'WEATHER';
+        backTo = 'study/weather';
       } else if (tool === 'wb') {
         page = <ToolWbPage />;
         title = 'WEIGHT & BALANCE';
+        backTo = 'study/wb';
       } else {
         page = <HomePage />;
       }

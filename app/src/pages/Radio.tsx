@@ -5,6 +5,7 @@ import { navigate } from '../lib/router';
 import { makeScenario, makeSpellItem, type CallScenario, type SpellItem } from '../lib/radiogen';
 import { speak, stopSpeaking, canSpeak, recognitionAvailable, listenOnce } from '../lib/speech';
 import { store, useStore } from '../lib/store';
+import { confetti } from '../lib/confetti';
 import { deckById } from '../content';
 import { Rich } from '../components/rich';
 import { IconSpeaker, IconMic } from '../components/icons';
@@ -94,12 +95,27 @@ function RadioHub(): JSX.Element {
 function useDrillTally() {
   const [hit, setHit] = useState(0);
   const [miss, setMiss] = useState(0);
-  return { hit, miss, addHit: () => setHit((n) => n + 1), addMiss: () => setMiss((n) => n + 1) };
+  return {
+    hit,
+    miss,
+    done: hit + miss,
+    addHit: () => setHit((n) => n + 1),
+    addMiss: () => setMiss((n) => n + 1),
+    reset: () => {
+      setHit(0);
+      setMiss(0);
+    },
+  };
 }
+
+/* Drills run as fixed-length ROUNDS (sized to the path's requirements),
+ * not endless streams — a visible finish line, then an end screen with a
+ * way out. Endless + no exit was the original sin here. */
 
 function DrillShell(props: {
   title: string;
-  tally: { hit: number; miss: number };
+  round: number;
+  tally: { hit: number; miss: number; done: number };
   children: JSX.Element | JSX.Element[];
 }): JSX.Element {
   return (
@@ -107,11 +123,42 @@ function DrillShell(props: {
       <div class="session-meta">
         <span>{props.title}</span>
         <span class="mono">
+          {Math.min(props.tally.done + 1, props.round)}/{props.round} ·{' '}
           <span style="color: var(--accent)">{props.tally.hit}✓</span>{' '}
           <span style="color: var(--warning)">{props.tally.miss}✗</span>
         </span>
       </div>
+      <div class="session-progress">
+        <div style={`width: ${Math.round((props.tally.done / props.round) * 100)}%`} />
+      </div>
       {props.children}
+    </div>
+  );
+}
+
+function RoundComplete(props: {
+  title: string;
+  tally: { hit: number; miss: number; done: number };
+  onAgain: () => void;
+  exitTo: string;
+}): JSX.Element {
+  const pct = props.tally.done > 0 ? Math.round((props.tally.hit / props.tally.done) * 100) : 0;
+  return (
+    <div class="stack">
+      <div class="panel center" style="padding: 32px 16px">
+        <div style="font-size: 44px">🎯</div>
+        <div class="stat-num mt" style="font-size: 44px">{pct}%</div>
+        <div class="stat-label mt">round complete — {props.title}</div>
+        <p class="small dim mt">
+          {props.tally.hit} nailed · {props.tally.miss} missed
+        </p>
+      </div>
+      <button class="btn btn-primary btn-block btn-big" onClick={props.onAgain}>
+        Another round
+      </button>
+      <button class="btn btn-block" onClick={() => navigate(props.exitTo)}>
+        Done
+      </button>
     </div>
   );
 }
@@ -195,20 +242,38 @@ function SelfGrade(props: { onMiss: () => void; onHit: () => void }): JSX.Elemen
 
 /* ---------- Spell-it drill ---------- */
 
+const SPELL_ROUND = 10;
+
 function SpellDrill(): JSX.Element {
   const [item, setItem] = useState<SpellItem>(() => makeSpellItem());
   const [revealed, setRevealed] = useState(false);
   const tally = useDrillTally();
   const tts = canSpeak() && store.settings.ttsEnabled;
 
-  const next = () => {
+  const next = (wasLast: boolean) => {
     stopSpeaking();
+    if (wasLast) confetti();
     setItem(makeSpellItem());
     setRevealed(false);
   };
 
+  if (tally.done >= SPELL_ROUND) {
+    return (
+      <RoundComplete
+        title="spell it"
+        tally={tally}
+        onAgain={() => {
+          tally.reset();
+          setItem(makeSpellItem());
+          setRevealed(false);
+        }}
+        exitTo="radio"
+      />
+    );
+  }
+
   return (
-    <DrillShell title="Spell it" tally={tally}>
+    <DrillShell title="Spell it" round={SPELL_ROUND} tally={tally}>
       <div class="session-card-area">
         <div class="flashcard">
           <div class="tiny dim" style="letter-spacing: 0.08em; text-transform: uppercase">
@@ -248,8 +313,8 @@ function SpellDrill(): JSX.Element {
       <div class="session-actions">
         {revealed ? (
           <SelfGrade
-            onMiss={() => { void store.bumpDrill('spell'); tally.addMiss(); next(); }}
-            onHit={() => { void store.bumpDrill('spell'); tally.addHit(); next(); }}
+            onMiss={() => { void store.bumpDrill('spell'); tally.addMiss(); next(tally.done + 1 >= SPELL_ROUND); }}
+            onHit={() => { void store.bumpDrill('spell'); tally.addHit(); next(tally.done + 1 >= SPELL_ROUND); }}
           />
         ) : (
           <button class="reveal-btn" onClick={() => setRevealed(true)}>
@@ -263,20 +328,38 @@ function SpellDrill(): JSX.Element {
 
 /* ---------- Calls & readbacks drill ---------- */
 
+const CALLS_ROUND = 6;
+
 function CallsDrill(): JSX.Element {
   const [sc, setSc] = useState<CallScenario>(() => makeScenario());
   const [revealed, setRevealed] = useState(false);
   const tally = useDrillTally();
   const tts = canSpeak() && store.settings.ttsEnabled;
 
-  const next = () => {
+  const next = (wasLast: boolean) => {
     stopSpeaking();
+    if (wasLast) confetti();
     setSc(makeScenario());
     setRevealed(false);
   };
 
+  if (tally.done >= CALLS_ROUND) {
+    return (
+      <RoundComplete
+        title="calls & readbacks"
+        tally={tally}
+        onAgain={() => {
+          tally.reset();
+          setSc(makeScenario());
+          setRevealed(false);
+        }}
+        exitTo="radio"
+      />
+    );
+  }
+
   return (
-    <DrillShell title="Calls & readbacks" tally={tally}>
+    <DrillShell title="Calls & readbacks" round={CALLS_ROUND} tally={tally}>
       <div class="session-card-area">
         <div class="flashcard">
           <div class="tiny" style="letter-spacing: 0.08em; text-transform: uppercase; color: var(--info)">
@@ -320,8 +403,8 @@ function CallsDrill(): JSX.Element {
       <div class="session-actions">
         {revealed ? (
           <SelfGrade
-            onMiss={() => { void store.bumpDrill('calls'); tally.addMiss(); next(); }}
-            onHit={() => { void store.bumpDrill('calls'); tally.addHit(); next(); }}
+            onMiss={() => { void store.bumpDrill('calls'); tally.addMiss(); next(tally.done + 1 >= CALLS_ROUND); }}
+            onHit={() => { void store.bumpDrill('calls'); tally.addHit(); next(tally.done + 1 >= CALLS_ROUND); }}
           />
         ) : (
           <button class="reveal-btn" onClick={() => setRevealed(true)}>
