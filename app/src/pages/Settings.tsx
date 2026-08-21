@@ -8,8 +8,10 @@ import {
   AI_MODELS,
   getAiKey,
   getAiModel,
+  getAiProject,
   setAiKey,
   setAiModel,
+  setAiProject,
   type AiModelId,
 } from '../lib/ai';
 
@@ -178,12 +180,14 @@ export function SettingsPage(): JSX.Element {
 function AiTutorSection(): JSX.Element {
   const [saved, setSaved] = useState<boolean | null>(null);
   const [draft, setDraft] = useState('');
+  const [projectDraft, setProjectDraft] = useState('');
   const [model, setModelState] = useState<AiModelId>('claude-opus-5');
   const [note, setNote] = useState<string | null>(null);
 
   useEffect(() => {
     void getAiKey().then((k) => setSaved(!!k));
     void getAiModel().then(setModelState);
+    void getAiProject().then((p) => setProjectDraft(p ?? ''));
   }, []);
 
   const save = async () => {
@@ -205,9 +209,56 @@ function AiTutorSection(): JSX.Element {
     <section class="panel">
       <div class="panel-title">AI tutor</div>
       <p class="small dim">
-        The ✨ Explain button works two ways. With no setup it opens Claude
-        (free account) with the material prefilled. Add an Anthropic API key
-        here and you get a chat tutor right inside the app instead.
+        The ✨ Explain button hands your card to Claude along with a summary
+        of what you keep getting wrong, so it knows where you're at.
+      </p>
+      <p class="tiny faint mt">
+        Note: a Claude Pro/Max subscription covers claude.ai and the Claude
+        app, but <b>not</b> the developer API — Anthropic bills those
+        separately, and there's no way for an outside app like this one to
+        spend your subscription. So the free path below opens the real Claude
+        app on your account; the API key path is a separate, optional expense.
+      </p>
+
+      <hr class="hr" />
+      <div class="tiny dim" style="text-transform: uppercase; letter-spacing: 0.05em">
+        Free — uses your Claude account
+      </div>
+      <p class="small dim mt">
+        Pin a Claude <b>Project</b> and every question lands in that one
+        project instead of a brand-new chat, so the context builds up over
+        time. Make a project in the Claude app (call it “Ground school”), then
+        paste its link here.
+      </p>
+      <div class="mt" style="display:flex; gap:8px">
+        <input
+          type="url"
+          inputmode="url"
+          placeholder="https://claude.ai/project/…"
+          autocomplete="off"
+          style="flex:1"
+          value={projectDraft}
+          onInput={(e) => setProjectDraft((e.target as HTMLInputElement).value)}
+        />
+        <button
+          class="btn"
+          onClick={() => {
+            const v = projectDraft.trim();
+            void setAiProject(v || null);
+            setNote(v ? 'Project pinned.' : 'Project unpinned.');
+          }}
+        >
+          {projectDraft.trim() ? 'Pin' : 'Clear'}
+        </button>
+      </div>
+
+      <hr class="hr" />
+      <div class="tiny dim" style="text-transform: uppercase; letter-spacing: 0.05em">
+        Optional — chat inside this app
+      </div>
+      <p class="small dim mt">
+        An Anthropic API key adds a tutor chat right here, without leaving the
+        card. Billed by usage, typically a fraction of a cent per question.
       </p>
       {saved ? (
         <div class="rowline mt" style="min-height: var(--tap)">

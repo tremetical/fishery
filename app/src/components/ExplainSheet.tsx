@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import {
   claudeWebUrl,
   getAiKey,
+  getAiProject,
+  handoffText,
   streamExplain,
   type ChatMessage,
   type ExplainContext,
@@ -39,10 +41,13 @@ function Sheet(props: { context: ExplainContext; onClose: () => void }): JSX.Ele
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [project, setProject] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     void getAiKey().then((k) => setHasKey(!!k));
+    void getAiProject().then(setProject);
   }, []);
 
   useEffect(() => {
@@ -134,16 +139,30 @@ function Sheet(props: { context: ExplainContext; onClose: () => void }): JSX.Ele
           <div class="stack" style="padding: 14px">
             <a
               class="btn btn-primary btn-block btn-big"
-              href={claudeWebUrl(props.context)}
+              href={claudeWebUrl(props.context, project)}
               target="_blank"
               rel="noopener"
+              onClick={() => {
+                // Prefill via ?q= is undocumented and not reliable on
+                // Project links, so the prompt also goes to the clipboard.
+                void navigator.clipboard
+                  ?.writeText(handoffText(props.context))
+                  .then(() => setCopied(true))
+                  .catch(() => {});
+              }}
             >
               Ask Claude about this
             </a>
             <p class="small dim">
-              Opens Claude (app or web) with this material prefilled — use
-              your regular free Claude account and ask anything.
+              {project
+                ? 'Opens your pinned Claude project, so every question you ask lands in the same conversation history.'
+                : 'Opens Claude (the app, if you have it) with this card and your weak spots included — uses your own Claude account.'}
             </p>
+            {copied && (
+              <p class="tiny" style="color: var(--info)">
+                Prompt copied — if Claude opens with an empty box, just paste.
+              </p>
+            )}
             <button
               class="btn btn-quiet btn-block"
               onClick={() => {
