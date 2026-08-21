@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { claudeWebUrl, handoffText, type ExplainContext } from './ai';
+import {
+  claudeWebUrl,
+  handoffText,
+  normalizeProjectUrl,
+  type ExplainContext,
+} from './ai';
 
 const ctx: ExplainContext = {
   label: 'Flashcard',
@@ -34,11 +39,12 @@ describe('claudeWebUrl', () => {
   });
 
   it('ignores anything that is not a claude.ai project link', () => {
+    // Note: a plain-http claude.ai project link is upgraded to https by
+    // normalizeProjectUrl rather than dropped — covered in its own suite.
     // A stray paste must never redirect the student off to another host.
     for (const bad of [
       'https://evil.example.com/project/abc',
       'https://claude.ai.evil.com/project/abc',
-      'http://claude.ai/project/abc',
       'https://claude.ai/chat/abc',
       'not a url',
     ])
@@ -55,5 +61,39 @@ describe('claudeWebUrl', () => {
     const huge: ExplainContext = { label: 'Flashcard', body: 'x'.repeat(9000) };
     expect(handoffText(huge).length).toBeLessThanOrEqual(1800);
     expect(claudeWebUrl(huge).length).toBeLessThan(8000);
+  });
+});
+
+describe('normalizeProjectUrl', () => {
+  const ID = 'https://claude.ai/project/abc-123';
+
+  it('accepts the shapes a phone actually copies', () => {
+    for (const pasted of [
+      'https://claude.ai/project/abc-123',
+      'https://claude.ai/project/abc-123/',
+      'https://claude.ai/project/abc-123?foo=1',
+      'https://claude.ai/project/abc-123#top',
+      'https://www.claude.ai/project/abc-123',
+      'claude.ai/project/abc-123',
+      'http://claude.ai/project/abc-123',
+      '  https://claude.ai/project/abc-123  ',
+      'abc-123456789',
+    ])
+      expect(normalizeProjectUrl(pasted)).toMatch(/^https:\/\/claude\.ai\/project\//);
+    expect(normalizeProjectUrl('https://claude.ai/project/abc-123/')).toBe(ID);
+  });
+
+  it('rejects anything that would send study material off-host', () => {
+    for (const bad of [
+      '',
+      '   ',
+      'https://evil.example.com/project/abc-123',
+      'https://claude.ai.evil.com/project/abc-123',
+      'https://evilclaude.ai/project/abc-123',
+      'https://claude.ai/chat/abc-123',
+      'https://claude.ai/project/abc-123/extra',
+      'just some words',
+    ])
+      expect(normalizeProjectUrl(bad)).toBeNull();
   });
 });

@@ -155,10 +155,36 @@ export function claudeWebUrl(
   projectUrl?: string | null,
 ): string {
   const q = encodeURIComponent(handoffPrompt(ctx));
-  const base = (projectUrl ?? '').trim().replace(/[?#].*$/, '').replace(/\/$/, '');
-  if (/^https:\/\/claude\.ai\/project\/[\w-]+$/.test(base))
-    return `${base}?q=${q}`;
-  return `https://claude.ai/new?q=${q}`;
+  const base = normalizeProjectUrl(projectUrl ?? '');
+  return base ? `${base}?q=${q}` : `https://claude.ai/new?q=${q}`;
+}
+
+/**
+ * Accept whatever a phone actually manages to copy — a full URL, one
+ * without the scheme, one carrying Safari's query junk, or the bare
+ * project id — and return a canonical project URL, or null if it isn't
+ * one. The hostname is matched exactly so a lookalike host can never
+ * send the student's study material somewhere else.
+ */
+export function normalizeProjectUrl(input: string): string | null {
+  const raw = (input ?? '').trim();
+  if (!raw) return null;
+
+  // A bare project id, pasted without any surrounding URL.
+  if (!raw.includes('/') && !raw.includes('.') && /^[A-Za-z0-9][\w-]{7,}$/.test(raw))
+    return `https://claude.ai/project/${raw}`;
+
+  let url: URL;
+  try {
+    url = new URL(/^https?:\/\//i.test(raw) ? raw : `https://${raw}`);
+  } catch {
+    return null;
+  }
+  if (url.hostname !== 'claude.ai' && url.hostname !== 'www.claude.ai')
+    return null;
+
+  const match = /^\/project\/([\w-]+)\/?$/.exec(url.pathname);
+  return match ? `https://claude.ai/project/${match[1]}` : null;
 }
 
 /** The text handed to Claude — also copied to the clipboard as a fallback. */

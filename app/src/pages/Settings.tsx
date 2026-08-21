@@ -9,6 +9,7 @@ import {
   getAiKey,
   getAiModel,
   getAiProject,
+  normalizeProjectUrl,
   setAiKey,
   setAiModel,
   setAiProject,
@@ -181,6 +182,7 @@ function AiTutorSection(): JSX.Element {
   const [saved, setSaved] = useState<boolean | null>(null);
   const [draft, setDraft] = useState('');
   const [projectDraft, setProjectDraft] = useState('');
+  const [projectNote, setProjectNote] = useState<string | null>(null);
   const [model, setModelState] = useState<AiModelId>('claude-opus-5');
   const [note, setNote] = useState<string | null>(null);
 
@@ -227,9 +229,23 @@ function AiTutorSection(): JSX.Element {
       <p class="small dim mt">
         Pin a Claude <b>Project</b> and every question lands in that one
         project instead of a brand-new chat, so the context builds up over
-        time. Make a project in the Claude app (call it “Ground school”), then
-        paste its link here.
+        time. Optional — skip it and questions still work.
       </p>
+      <ol class="small dim" style="margin: 8px 0 0; padding-left: 20px; line-height: 1.6">
+        <li>
+          Open{' '}
+          <a href="https://claude.ai/projects" target="_blank" rel="noopener">
+            claude.ai/projects
+          </a>{' '}
+          <b>in Safari</b> (not the Claude app) and sign in.
+        </li>
+        <li>Tap <b>+ New project</b> and name it “Ground school”.</li>
+        <li>
+          Tap Safari's address bar, then <b>Copy</b> — the link looks like
+          claude.ai/project/…
+        </li>
+        <li>Paste it below and tap Pin.</li>
+      </ol>
       <div class="mt" style="display:flex; gap:8px">
         <input
           type="url"
@@ -244,13 +260,27 @@ function AiTutorSection(): JSX.Element {
           class="btn"
           onClick={() => {
             const v = projectDraft.trim();
-            void setAiProject(v || null);
-            setNote(v ? 'Project pinned.' : 'Project unpinned.');
+            if (!v) {
+              void setAiProject(null);
+              setProjectNote('Unpinned — questions open a new chat.');
+              return;
+            }
+            const url = normalizeProjectUrl(v);
+            if (!url) {
+              setProjectNote(
+                "That doesn't look like a project link. It should look like claude.ai/project/… — see the steps above.",
+              );
+              return;
+            }
+            void setAiProject(url);
+            setProjectDraft(url);
+            setProjectNote('Pinned. Questions now land in that project.');
           }}
         >
           {projectDraft.trim() ? 'Pin' : 'Clear'}
         </button>
       </div>
+      {projectNote && <p class="small mt">{projectNote}</p>}
 
       <hr class="hr" />
       <div class="tiny dim" style="text-transform: uppercase; letter-spacing: 0.05em">
