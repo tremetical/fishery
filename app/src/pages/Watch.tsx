@@ -1,5 +1,5 @@
 import type { JSX } from 'preact';
-import { WATCH } from '../content/watch';
+import { PLAN, WATCH } from '../content/watch';
 
 /**
  * Video courses live outside the app. Cards are for recall; watching
@@ -12,14 +12,39 @@ export function WatchPage(): JSX.Element {
   return (
     <div class="stack">
       <section class="panel">
-        <div class="panel-title">Watch first, then drill</div>
+        <div class="panel-title">How to actually use these</div>
         <p class="small dim">
-          Flashcards are good at keeping something you already understand.
-          They are bad at teaching it to you cold. If a deck feels like it
-          assumes knowledge you do not have, watch the matching lesson from
-          one of these, then come back and let the cards do their job.
+          One topic per sitting, in this order: <b>watch it</b>, then{' '}
+          <b>drill it here</b>, then <b>see it in the airplane</b>. About
+          30 minutes of video and 10 of cards, most days, beats a six-hour
+          binge — the card scheduler is built around you coming back.
+        </p>
+        <p class="tiny faint mt">
+          Do not try to finish a whole course before your next lesson. And
+          if you cannot explain what you just watched out loud, re-watch
+          that part rather than pushing on.
         </p>
       </section>
+
+      <div class="panel-title" style="margin: 8px 2px 0">The order</div>
+      {PLAN.map((p, i) => (
+        <div key={p.when} class="tile" style="align-items: flex-start">
+          <div class="tile-icon" style="background: var(--surface-2)">
+            <span class="mono">{i + 1}</span>
+          </div>
+          <div class="tile-body">
+            <div class="tile-title">{p.when}</div>
+            <div class="tile-sub">
+              <b>Watch:</b> {p.watch}
+            </div>
+            <div class="tile-sub">
+              <b>Then:</b> {p.then}
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <div class="panel-title" style="margin: 8px 2px 0">Where to watch</div>
 
       {featured.map((w) => (
         <a key={w.url} class="panel" href={w.url} target="_blank" rel="noopener">

@@ -26,8 +26,7 @@ export const WATCH: WatchItem[] = [
     url: 'https://ocw.mit.edu/courses/16-687-private-pilot-ground-school-january-iap-2019/',
     length: 'A full lecture course, ~25 hours',
     blurb:
-      'A complete university ground school, free and unlisted behind no signup. Closest thing to the "one really long one" — start at lecture 1 and work down.',
-    featured: true,
+      'A real university ground school, free with no signup. Dense and fast — it is the best second pass on a topic you have already met, not the place to meet it. Its weather and aerodynamics lectures are worth the trip.',
   },
   {
     title: 'Free Private Pilot Ground School',
@@ -35,7 +34,8 @@ export const WATCH: WatchItem[] = [
     url: 'https://pilotinstitute.com/course/free-private-pilot-ground-school/',
     length: 'First ~8 hours free',
     blurb:
-      'The most polished production of the bunch, and structured in the same order as the written exam. Free tier needs an account.',
+      'Beginner-paced, well produced, and ordered like the written exam. This is the spine to work through — the others are for when something does not click.',
+    featured: true,
   },
   {
     title: 'Free Private Pilot Ground School',
@@ -60,5 +60,55 @@ export const WATCH: WatchItem[] = [
     length: 'Short videos and case studies',
     blurb:
       'Accident case studies and real ATC audio. The best material anywhere on judgement and decision-making.',
+  },
+];
+
+export interface PlanStep {
+  when: string;
+  watch: string;
+  then: string;
+}
+
+/*
+ * The order to actually do this in. The mistake worth preventing is
+ * binge-watching a full course before ever touching the airplane: video is
+ * first contact, the cards are retention, and the lesson is what makes any
+ * of it mean anything. One topic per sitting, in that order.
+ */
+export const PLAN: PlanStep[] = [
+  {
+    when: 'Before your next lesson',
+    watch: 'Controls and the four forces · what a stall really is · the traffic pattern',
+    then: 'Run the Start here unit. Aim to follow what your CFI is doing, not to pass anything yet.',
+  },
+  {
+    when: 'Weeks 1–2',
+    watch: 'Aircraft systems, then principles of flight',
+    then: 'Systems and Aerodynamics units. Touch the parts on the real airplane during preflight.',
+  },
+  {
+    when: 'Weeks 3–4',
+    watch: 'Airports, markings and lighting · radio communications',
+    then: 'Airport and Radio units, plus the spoken drills. Say the calls out loud in the car.',
+  },
+  {
+    when: 'Weeks 5–6',
+    watch: 'Airspace',
+    then: 'Airspace unit and the Airspace explorer. Expect this one to take two passes.',
+  },
+  {
+    when: 'Weeks 7–9',
+    watch: 'Weather theory, then reports and forecasts',
+    then: 'Weather units and METAR Lab. The biggest chunk of the written lives here.',
+  },
+  {
+    when: 'Weeks 10–11',
+    watch: 'Navigation and cross-country planning · weight, balance and performance',
+    then: 'Nav, W&B and Performance units. Plan a real cross-country you would actually fly.',
+  },
+  {
+    when: 'Weeks 12+',
+    watch: 'Regulations · aeromedical · decision making',
+    then: 'Regs and Aeromedical units, then start full practice exams until you clear 80%.',
   },
 ];
