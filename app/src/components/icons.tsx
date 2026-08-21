@@ -43,10 +43,15 @@ export const IconChart = (): JSX.Element => (
   </svg>
 );
 
+/*
+ * A toothed cog, not a spoked circle. The earlier version — a small circle
+ * with eight straight radial lines — read as a brightness/sun control, and
+ * people could not find Settings at all.
+ */
 export const IconGear = (): JSX.Element => (
   <svg {...base}>
-    <circle cx="12" cy="12" r="3" />
-    <path d="M12 3.5v2.2M12 18.3v2.2M20.5 12h-2.2M5.7 12H3.5M18 6l-1.6 1.6M7.6 16.4 6 18M18 18l-1.6-1.6M7.6 7.6 6 6" />
+    <circle cx="12" cy="12" r="3.2" />
+    <path d="M10.6 2.8h2.8l.35 2.3 1.9.79 1.85-1.4 1.98 1.98-1.4 1.85.79 1.9 2.3.35v2.8l-2.3.35-.79 1.9 1.4 1.85-1.98 1.98-1.85-1.4-1.9.79-.35 2.3h-2.8l-.35-2.3-1.9-.79-1.85 1.4-1.98-1.98 1.4-1.85-.79-1.9-2.3-.35v-2.8l2.3-.35.79-1.9-1.4-1.85 1.98-1.98 1.85 1.4 1.9-.79z" />
   </svg>
 );
 

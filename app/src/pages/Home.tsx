@@ -108,6 +108,18 @@ export function HomePage(): JSX.Element {
         </button>
       )}
 
+      <button class="tile" onClick={() => navigate('settings')}>
+        <div class="tile-icon" style="background: var(--info-soft)">
+          <span class="emoji">⚙️</span>
+        </div>
+        <div class="tile-body">
+          <div class="tile-title">Settings</div>
+          <div class="tile-sub">
+            Night mode, backups, AI tutor, and app updates
+          </div>
+        </div>
+      </button>
+
       <div class="panel-title" style="margin: 8px 2px 0">The path</div>
 
       <div class="path">

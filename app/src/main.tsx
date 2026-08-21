@@ -10,12 +10,5 @@ initStore().then(() => {
   render(<App />, document.getElementById('app')!);
 });
 
-// PWA service worker (vite-plugin-pwa virtual module). Guarded so the app
-// still runs where SW registration is unavailable (dev, some webviews).
-if ('serviceWorker' in navigator) {
-  import('virtual:pwa-register')
-    .then(({ registerSW }) => registerSW({ immediate: true }))
-    .catch(() => {
-      /* not fatal: app works, just not installable/offline-cached */
-    });
-}
+// PWA service worker + the update checks iOS does not perform on its own.
+void import('./lib/updates').then((m) => m.initUpdates());

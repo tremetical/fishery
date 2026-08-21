@@ -4,6 +4,7 @@ import { getTheme, setTheme, THEMES, type Theme } from '../lib/theme';
 import { store, useStore } from '../lib/store';
 import { exportBackup, importBackup } from '../lib/backup';
 import { storageMode } from '../lib/db';
+import { checkForUpdate, hardRefresh } from '../lib/updates';
 import {
   AI_MODELS,
   getAiKey,
@@ -22,6 +23,8 @@ export function SettingsPage(): JSX.Element {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [checking, setChecking] = useState(false);
+  const [updateMsg, setUpdateMsg] = useState<string | null>(null);
 
   const pick = (t: Theme) => {
     setTheme(t);
@@ -170,9 +173,45 @@ export function SettingsPage(): JSX.Element {
         </p>
         <p class="tiny faint mt mono">
           Build {typeof __BUILD_STAMP__ === 'string' ? __BUILD_STAMP__ : 'dev'}
-          {' '}· updates arrive automatically shortly after the app is fully
-          closed and reopened.
         </p>
+        <div class="grid2 mt">
+          <button
+            class="btn"
+            disabled={checking}
+            onClick={() => {
+              setChecking(true);
+              setUpdateMsg('Checking…');
+              void checkForUpdate()
+                .then((r) => {
+                  setUpdateMsg(
+                    r === 'updated'
+                      ? 'Update found — reloading…'
+                      : r === 'current'
+                        ? 'Already on the newest build.'
+                        : 'Could not check right now.',
+                  );
+                })
+                .finally(() => setChecking(false));
+            }}
+          >
+            Check for updates
+          </button>
+          <button
+            class="btn"
+            disabled={checking}
+            onClick={() => {
+              if (
+                window.confirm(
+                  'Force-reload the app from the network? Your study history is NOT affected.',
+                )
+              )
+                void hardRefresh();
+            }}
+          >
+            Force reload
+          </button>
+        </div>
+        {updateMsg && <p class="small mt">{updateMsg}</p>}
       </section>
     </div>
   );
@@ -183,13 +222,17 @@ function AiTutorSection(): JSX.Element {
   const [draft, setDraft] = useState('');
   const [projectDraft, setProjectDraft] = useState('');
   const [projectNote, setProjectNote] = useState<string | null>(null);
+  const [pinned, setPinned] = useState<string | null>(null);
   const [model, setModelState] = useState<AiModelId>('claude-opus-5');
   const [note, setNote] = useState<string | null>(null);
 
   useEffect(() => {
     void getAiKey().then((k) => setSaved(!!k));
     void getAiModel().then(setModelState);
-    void getAiProject().then((p) => setProjectDraft(p ?? ''));
+    void getAiProject().then((p) => {
+      setProjectDraft(p ?? '');
+      setPinned(p);
+    });
   }, []);
 
   const save = async () => {
@@ -258,10 +301,12 @@ function AiTutorSection(): JSX.Element {
         />
         <button
           class="btn"
+          disabled={!projectDraft.trim() && !pinned}
           onClick={() => {
             const v = projectDraft.trim();
             if (!v) {
               void setAiProject(null);
+              setPinned(null);
               setProjectNote('Unpinned — questions open a new chat.');
               return;
             }
@@ -274,10 +319,11 @@ function AiTutorSection(): JSX.Element {
             }
             void setAiProject(url);
             setProjectDraft(url);
+            setPinned(url);
             setProjectNote('Pinned. Questions now land in that project.');
           }}
         >
-          {projectDraft.trim() ? 'Pin' : 'Clear'}
+          {!projectDraft.trim() && pinned ? 'Unpin' : 'Pin'}
         </button>
       </div>
       {projectNote && <p class="small mt">{projectNote}</p>}
