@@ -19,6 +19,15 @@ export interface WatchItem {
   featured?: boolean;
 }
 
+/** The literal first thing to press play on. One link, no choosing. */
+export const FIRST = {
+  title: 'Lesson 1 — Flight Training 101',
+  who: 'FLY8MA · free ground school',
+  url: 'https://fly8ma.com/lessons/lesson-1-flight-training-101/',
+  blurb:
+    'Built for exactly where you are: what to know before your first flight lesson. Watch it, then keep going down that course in order. Do not mix sources — one course start to finish beats five half-watched.',
+};
+
 export const WATCH: WatchItem[] = [
   {
     title: 'Private Pilot Ground School (16.687)',
@@ -34,8 +43,7 @@ export const WATCH: WatchItem[] = [
     url: 'https://pilotinstitute.com/course/free-private-pilot-ground-school/',
     length: 'First ~8 hours free',
     blurb:
-      'Beginner-paced, well produced, and ordered like the written exam. This is the spine to work through — the others are for when something does not click.',
-    featured: true,
+      'Beginner-paced and ordered like the written exam. The best alternative if FLY8MA\'s style does not suit you — pick one, not both.',
   },
   {
     title: 'Free Private Pilot Ground School',
@@ -43,7 +51,7 @@ export const WATCH: WatchItem[] = [
     url: 'https://fly8ma.com/courses/free-private-pilot-ground-school-pilot-course/',
     length: '100+ short videos',
     blurb:
-      'Practical and scenario-heavy — feels like a lesson debrief rather than a lecture. Good when a concept has not clicked yet.',
+      'Practical and scenario-heavy — feels like a lesson debrief rather than a lecture. This is the course Lesson 1 above belongs to; work straight down it.',
   },
   {
     title: 'Free Private Pilot Videos',

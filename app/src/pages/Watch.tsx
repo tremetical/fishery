@@ -1,16 +1,23 @@
 import type { JSX } from 'preact';
-import { PLAN, WATCH } from '../content/watch';
+import { FIRST, PLAN, WATCH } from '../content/watch';
 
 /**
  * Video courses live outside the app. Cards are for recall; watching
  * someone explain a thing the first time is what these are for.
  */
 export function WatchPage(): JSX.Element {
-  const featured = WATCH.filter((w) => w.featured);
-  const rest = WATCH.filter((w) => !w.featured);
+  const rest = WATCH;
 
   return (
     <div class="stack">
+      <a class="panel" href={FIRST.url} target="_blank" rel="noopener"
+         style="border-color: var(--accent)">
+        <div class="badge badge-due">WATCH THIS FIRST</div>
+        <div class="tile-title mt">{FIRST.title}</div>
+        <div class="tiny dim">{FIRST.who}</div>
+        <p class="small dim mt">{FIRST.blurb}</p>
+      </a>
+
       <section class="panel">
         <div class="panel-title">How to actually use these</div>
         <p class="small dim">
@@ -45,17 +52,6 @@ export function WatchPage(): JSX.Element {
       ))}
 
       <div class="panel-title" style="margin: 8px 2px 0">Where to watch</div>
-
-      {featured.map((w) => (
-        <a key={w.url} class="panel" href={w.url} target="_blank" rel="noopener">
-          <div class="badge badge-due">START HERE</div>
-          <div class="tile-title mt">{w.title}</div>
-          <div class="tiny dim">
-            {w.who} · {w.length}
-          </div>
-          <p class="small dim mt">{w.blurb}</p>
-        </a>
-      ))}
 
       <div class="panel-title" style="margin: 8px 2px 0">More</div>
       {rest.map((w) => (
